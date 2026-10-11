@@ -15,6 +15,7 @@ import { TableData } from '~/types'
 import ViewSubEthnicGroupModal from './components/view_sub_ethnic_group_modal'
 import UpdateSubEthnicGroupModal from './components/update_sub_ethnic_group_modal'
 import { ConfirmDeleteModal } from '~/shared/ui'
+import useDashboardContext from '~/shared/hooks/use_dashboard_context'
 
 interface NameAlias {
     id: string
@@ -30,6 +31,7 @@ interface AdminEthnicGroupDetailPageProps {
 
 
 export default function AdminEthnicGroupDetailPage({ ethnicGroup, subEthnicGroups }: AdminEthnicGroupDetailPageProps) {
+    const { basePath, apiBase, can } = useDashboardContext()
     const { loadLanguageOptions, loadCountryOptions, loadDefaultCountryOption, loadDefaultLanguageOption } = useUtils()
 
     const [isModalOpen, setIsModalOpen] = useState(false)
@@ -106,7 +108,7 @@ export default function AdminEthnicGroupDetailPage({ ethnicGroup, subEthnicGroup
         if (!subGroupToDelete) return
 
         setIsDeletingSubGroup(true)
-        router.delete(`/api/v1/admin/sub-ethnic-groups/${subGroupToDelete.id}`, {
+        router.delete(`${apiBase}/sub-ethnic-groups/${subGroupToDelete.id}`, {
             preserveScroll: true,
             preserveState: true,
             onSuccess: () => {
@@ -131,14 +133,14 @@ export default function AdminEthnicGroupDetailPage({ ethnicGroup, subEthnicGroup
                     <div className="flex items-center gap-2 text-sm text-[var(--color-admin-text-secondary-light)] dark:text-[var(--color-admin-text-secondary-dark)]">
                         <a
                             className="hover:text-[var(--color-admin-primary)]"
-                            href="/admin/cultures"
+                            href={`${basePath}/cultures`}
                         >
                             Cultures
                         </a>
                         <span>/</span>
                         <a
                             className="hover:text-[var(--color-admin-primary)]"
-                            href="/admin/ethnic-groups"
+                            href={`${basePath}/ethnic-groups`}
                         >
                             Ethnic Groups
                         </a>
@@ -166,7 +168,7 @@ export default function AdminEthnicGroupDetailPage({ ethnicGroup, subEthnicGroup
                     </div>
                     <div className="p-6">
                         <Form
-                            action={`/api/v1/admin/ethnic-groups/${ethnicGroup.id}`}
+                            action={`${apiBase}/ethnic-groups/${ethnicGroup.id}`}
                             method="PUT"
                             className="flex flex-col w-full gap-5"
                             onSuccess={() => {
@@ -457,15 +459,17 @@ export default function AdminEthnicGroupDetailPage({ ethnicGroup, subEthnicGroup
                                                     edit
                                                 </span>
                                             </button>
-                                            <button
-                                                type="button"
-                                                onClick={() => handleDeleteSubGroup(item)}
-                                                className="h-8 w-8 text-[var(--color-admin-text-secondary-light)] hover:text-red-500 dark:text-[var(--color-admin-text-secondary-dark)]"
-                                            >
-                                                <span className="material-symbols-outlined text-xl">
-                                                    delete
-                                                </span>
-                                            </button>
+                                            {can.delete && (
+                                                <button
+                                                    type="button"
+                                                    onClick={() => handleDeleteSubGroup(item)}
+                                                    className="h-8 w-8 text-[var(--color-admin-text-secondary-light)] hover:text-red-500 dark:text-[var(--color-admin-text-secondary-dark)]"
+                                                >
+                                                    <span className="material-symbols-outlined text-xl">
+                                                        delete
+                                                    </span>
+                                                </button>
+                                            )}
                                         </div>
                                     )
                                 }
@@ -499,6 +503,7 @@ export default function AdminEthnicGroupDetailPage({ ethnicGroup, subEthnicGroup
                 subGroup={selectedSubGroup}
             />
 
+            {can.delete && (
             <ConfirmDeleteModal
                 isOpen={isDeleteModalOpen}
                 name={subGroupToDelete?.canonicalName || ''}
@@ -510,6 +515,7 @@ export default function AdminEthnicGroupDetailPage({ ethnicGroup, subEthnicGroup
                 onYes={confirmDeleteSubGroup}
                 loading={isDeletingSubGroup}
             />
+            )}
         </>
     )
 }

@@ -1,10 +1,11 @@
 import { DateTime } from 'luxon'
 import { BaseModel, beforeCreate, belongsTo, column } from '@adonisjs/lucid/orm'
-import { randomUUID } from 'crypto'
+import { randomUUID } from 'node:crypto'
 import { type BelongsTo } from '@adonisjs/lucid/types/relations'
 import Culture from './culture.js'
 import User from './user.js'
 import SubEthnicGroup from './sub_ethnic_group.js'
+import type { ContentStatus } from '../util/content_status.js'
 
 export default class Myth extends BaseModel {
   @column({ isPrimary: true })
@@ -29,8 +30,7 @@ export default class Myth extends BaseModel {
   declare subEthnicGroupId: string
 
   @column()
-  declare status: "draft" | "published" | "pending" | "rejected"
-
+  declare status: ContentStatus
 
   @column()
   declare source: string
@@ -43,7 +43,6 @@ export default class Myth extends BaseModel {
 
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   declare updatedAt: DateTime
-
 
   @belongsTo(() => User, {
     foreignKey: 'authorId',

@@ -6,6 +6,7 @@ import EthnicGroup from '#models/ethnic_group'
 import Button from '~/shared/ui/button'
 import AddEthnicGroupModal from './components/add_ethnic_group_modal'
 import { ConfirmDeleteModal } from '~/shared/ui'
+import useDashboardContext from '~/shared/hooks/use_dashboard_context'
     
 interface AdminEthnicGroupsPageProps {
     ethnicGroups: TableData<EthnicGroup[]>
@@ -18,6 +19,7 @@ export default function AdminEthnicGroupsPage({
     sortBy, 
     sortOrder,
 }: AdminEthnicGroupsPageProps) {
+    const { basePath, apiBase, can } = useDashboardContext()
     const [isAddModalOpen, setIsAddModalOpen] = useState(false)
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
     const [selectedGroup, setSelectedGroup] = useState<EthnicGroup | null>(null)
@@ -27,7 +29,7 @@ export default function AdminEthnicGroupsPage({
         const newSortOrder =
             sortBy === columnKey && sortOrder === 'asc' ? 'desc' : 'asc'
 
-        router.visit('/admin/ethnic-groups', {
+        router.visit(`${basePath}/ethnic-groups`, {
             data: {
                 sortBy: columnKey,
                 sortOrder: newSortOrder,
@@ -68,7 +70,7 @@ export default function AdminEthnicGroupsPage({
         <div className="flex justify-end gap-1">
             <button
                 onClick={() => {
-                    router.visit(`/admin/ethnic-groups/${group.id}`)
+                    router.visit(`${basePath}/ethnic-groups/${group.id}`)
                 }}
                 className="h-8 w-8 text-[var(--color-admin-text-secondary-light)] hover:text-[var(--color-admin-primary)] dark:text-[var(--color-admin-text-secondary-dark)]"
             >
@@ -76,17 +78,19 @@ export default function AdminEthnicGroupsPage({
                     edit
                 </span>
             </button>
-            <button 
-                onClick={() => {
-                    setSelectedGroup(group)
-                    setIsDeleteModalOpen(true)
-                }}
-                className="h-8 w-8 text-[var(--color-admin-text-secondary-light)] hover:text-red-500 dark:text-[var(--color-admin-text-secondary-dark)]"
-            >
-                <span className="material-symbols-outlined text-xl">
-                    delete
-                </span>
-            </button>
+            {can.delete && (
+                <button
+                    onClick={() => {
+                        setSelectedGroup(group)
+                        setIsDeleteModalOpen(true)
+                    }}
+                    className="h-8 w-8 text-[var(--color-admin-text-secondary-light)] hover:text-red-500 dark:text-[var(--color-admin-text-secondary-dark)]"
+                >
+                    <span className="material-symbols-outlined text-xl">
+                        delete
+                    </span>
+                </button>
+            )}
         </div>
     )
     return (
@@ -141,6 +145,7 @@ export default function AdminEthnicGroupsPage({
             />
 
             {/* Delete Confirmation Modal */}
+            {can.delete && (
             <ConfirmDeleteModal
                 isOpen={isDeleteModalOpen}
                 name={selectedGroup?.canonicalName || ''}
@@ -150,7 +155,7 @@ export default function AdminEthnicGroupsPage({
                 }}
                 onYes={() => {
                     if (selectedGroup) {
-                        router.delete(`/api/v1/admin/ethnic-groups/${selectedGroup.id}`, {
+                        router.delete(`${apiBase}/ethnic-groups/${selectedGroup.id}`, {
                             onSuccess: () => {
                                 setIsDeleteModalOpen(false)
                                 setSelectedGroup(null)
@@ -164,6 +169,7 @@ export default function AdminEthnicGroupsPage({
                     }
                 }}
             />
+            )}
         </>
     )
 }

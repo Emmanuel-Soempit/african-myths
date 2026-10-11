@@ -182,11 +182,17 @@ export class AuthService {
     // console.log('User', user)
 
     try {
+      await user.load('metadata', (query) => {
+        query.preload('role')
+      })
       await auth.use('web').login(user)
       session.flash({
         success: 'User signed in successfully',
       })
-      return response.redirect().toPath('/')
+      const routePath = user.metadata?.role
+        ? AuthUtil.roleBasedRedirectRoute(user.metadata.role)
+        : '/'
+      return response.redirect().toPath(routePath)
     } catch (error) {
       console.log('Sign in error: ', error)
       session.flashErrors({

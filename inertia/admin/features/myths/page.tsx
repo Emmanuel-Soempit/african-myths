@@ -3,6 +3,7 @@ import { DataTable, Column } from '~/shared/ui/data-table'
 import { TableData } from '~/types'
 import Myth from '#models/myth'
 import Button from '~/shared/ui/button'
+import useDashboardContext from '~/shared/hooks/use_dashboard_context'
 
 interface AdminMythsPageProps {
     myths: TableData<Myth[]>
@@ -12,13 +13,13 @@ interface AdminMythsPageProps {
 }
 
 export default function AdminMythsPage({ myths, sortBy, sortOrder, cultureId }: AdminMythsPageProps) {
-    console.log('Cultrue', cultureId)
+    const { basePath } = useDashboardContext()
 
     const handleSort = (columnKey: string) => {
         const newSortOrder =
             sortBy === columnKey && sortOrder === 'asc' ? 'desc' : 'asc'
 
-        router.visit(`/admin/cultures/${cultureId}/myths`, {
+        router.visit(`${basePath}/cultures/${cultureId}/myths`, {
             data: {
                 sortBy: columnKey,
                 sortOrder: newSortOrder,
@@ -109,7 +110,7 @@ export default function AdminMythsPage({ myths, sortBy, sortOrder, cultureId }: 
                 <span className="material-symbols-outlined text-xl">visibility</span>
             </button>
             <button
-                onClick={() => router.visit(`/admin/cultures/${cultureId}/myths/${myth.id}/edit`)}
+                onClick={() => router.visit(`${basePath}/cultures/${cultureId}/myths/${myth.id}/edit`)}
                 className="h-8 w-8 text-[var(--color-admin-text-secondary-light)] hover:text-[var(--color-admin-primary)] dark:text-[var(--color-admin-text-secondary-dark)]"
                 title="Edit"
             >
@@ -140,7 +141,7 @@ export default function AdminMythsPage({ myths, sortBy, sortOrder, cultureId }: 
                     <Button
                         variant="admin-primary"
                         className="h-10 min-w-[84px] max-w-[480px] gap-2 px-4 text-sm"
-                        onClick={() => router.visit(`/admin/cultures/${cultureId}/myths/create`)}
+                        onClick={() => router.visit(`${basePath}/cultures/${cultureId}/myths/create`)}
                     >
                         <span className="material-symbols-outlined text-base">add_circle</span>
                         <span className="truncate">Add New Myth</span>

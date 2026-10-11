@@ -1,7 +1,8 @@
-// import type { HttpContext } from '@adonisjs/core/http'
-
 import { AdminRendererService } from '#services/admin/admin_renderer'
 import { AdminService } from '#services/admin/admin_service'
+import { CultureService } from '#services/culture/culture_service'
+import { MythService } from '#services/myth/myth_service'
+import { WritingService } from '#services/writing/writing_service'
 import { EthicGroupService } from '#services/ethic_group/ethic_group_service'
 import { HttpContext } from '@adonisjs/core/http'
 
@@ -28,7 +29,6 @@ export default class AdminController {
   async inviteUser(ctx: HttpContext) {
     return AdminService.createInvitation(ctx)
   }
-
 
   // Ethinic Grops
   async createEthnicGroup(ctx: HttpContext) {
@@ -81,12 +81,11 @@ export default class AdminController {
     const success = await EthicGroupService.deleteEthnicGroup(ctx)
 
     if (success) {
-      return ctx.response.redirect().toRoute('/admin/ethnic-groups')
+      return ctx.response.redirect().toPath('/admin/ethnic-groups')
     } else {
       return ctx.response.redirect().back()
     }
   }
-
 
   async renderCultures(ctx: HttpContext) {
     return AdminRendererService.renderCultures(ctx)
@@ -105,59 +104,23 @@ export default class AdminController {
   }
 
   async createCulture(ctx: HttpContext) {
-    const { name, ethnicGroupId } = ctx.request.only(['name', 'ethnicGroupId'])
-
-    if (!name || !ethnicGroupId) {
-      ctx.session.flashErrors({ error: 'Name and Ethnic Group are required' })
-      return ctx.response.redirect().back()
-    }
-
-    try {
-      const authorId = ctx.auth.user!.id
-      const { default: Culture } = await import('#models/culture')
-      await Culture.create({ name, ethnicGroupId, authorId, status: 'draft' })
+    const culture = await CultureService.create(ctx)
+    if (culture) {
       return ctx.response.redirect().toPath('/admin/cultures')
-    } catch (error) {
-      console.error('createCulture error:', error)
-      ctx.session.flashErrors({ error: 'Failed to create culture. Please try again.' })
-      return ctx.response.redirect().back()
     }
+    return ctx.response.redirect().back()
   }
 
   async updateCulture(ctx: HttpContext) {
-    const { id } = ctx.params
-    const { name, ethnicGroupId, history, language, thumbnail, status } = ctx.request.only([
-      'name',
-      'ethnicGroupId',
-      'history',
-      'language',
-      'thumbnail',
-      'status',
-    ])
-
-    const { default: Culture } = await import('#models/culture')
-    const culture = await Culture.findOrFail(id)
-
-    if (name !== undefined) culture.name = name
-    if (ethnicGroupId !== undefined) culture.ethnicGroupId = ethnicGroupId
-    if (history !== undefined) culture.history = history
-    if (language !== undefined) culture.language = language
-    if (thumbnail !== undefined) culture.thumbnail = thumbnail
-    if (status !== undefined) culture.status = status
-
-
-    await culture.save()
-
+    const culture = await CultureService.update(ctx)
+    if (culture) {
+      return ctx.response.redirect().back()
+    }
     return ctx.response.redirect().back()
   }
 
   async deleteCulture(ctx: HttpContext) {
-    const { id } = ctx.params
-
-    const { default: Culture } = await import('#models/culture')
-    const culture = await Culture.findOrFail(id)
-    await culture.delete()
-
+    await CultureService.delete(ctx)
     return ctx.response.redirect().toPath('/admin/cultures')
   }
 
@@ -166,75 +129,11 @@ export default class AdminController {
   }
 
   async createMyth(ctx: HttpContext) {
-    const { name, content, status, source, cultureId, subEthnicGroupId } = ctx.request.only([
-      'name',
-      'content',
-      'status',
-      'source',
-      'cultureId',
-      "subEthnicGroupId"
-    ])
-
-    const thumbnailFile = ctx.request.file('thumbnailFile', {
-      size: '5mb',
-      extnames: ['jpg', 'png', 'jpeg', 'webp', 'gif'],
-    })
-
-    if (!name || !cultureId) {
-      ctx.session.flashErrors({ error: 'Name/Title and Culture are required' })
-      return ctx.response.redirect().back()
+    const myth = await MythService.create(ctx)
+    if (myth) {
+      return ctx.response.redirect().toPath(`/admin/cultures/${myth.cultureId}/myths`)
     }
-
-    try {
-      const authorId = ctx.auth.user!.id
-
-      let thumbnailUrl = ''
-      if (thumbnailFile) {
-        if (!thumbnailFile.isValid) {
-          ctx.session.flashErrors({ error: 'Invalid thumbnail file. Please upload a valid image (max 5mb).' })
-          return ctx.response.redirect().back()
-        }
-        const { cuid } = await import('@adonisjs/core/helpers')
-        const app = (await import('@adonisjs/core/services/app')).default
-        const fileName = `${cuid()}.${thumbnailFile.extname}`
-        await thumbnailFile.move(app.makePath('public/myths'), {
-          name: fileName,
-          overwrite: true,
-        })
-        thumbnailUrl = `/myths/${fileName}`
-      } else {
-        thumbnailUrl = ctx.request.input('thumbnail', '')
-      }
-
-      // Calculate minutes to read based on word count of content
-      let minutesToRead = 1
-      if (content) {
-        // Strip HTML tags to get raw text
-        const plainText = content.replace(/<[^>]*>/g, ' ')
-        const words = plainText.trim().split(/\s+/)
-        const wordCount = words.length
-        minutesToRead = Math.max(1, Math.ceil(wordCount / 200))
-      }
-
-      const { default: Myth } = await import('#models/myth')
-      await Myth.create({
-        name,
-        thumbnail: thumbnailUrl || '',
-        content: content || '',
-        status: status || 'draft',
-        source: source || '',
-        cultureId,
-        authorId,
-        subEthnicGroupId,
-        minutesToRead,
-      })
-
-      return ctx.response.redirect().toPath(`/admin/cultures/${cultureId}/myths`)
-    } catch (error) {
-      console.error('createMyth error:', error)
-      ctx.session.flashErrors({ error: 'Failed to create myth. Please try again.' })
-      return ctx.response.redirect().back()
-    }
+    return ctx.response.redirect().back()
   }
 
   async renderMythEdit(ctx: HttpContext) {
@@ -242,76 +141,33 @@ export default class AdminController {
   }
 
   async updateMyth(ctx: HttpContext) {
-    const { id } = ctx.params
-    const { name, content, status, source, cultureId, subEthnicGroupId } = ctx.request.only([
-      'name',
-      'content',
-      'status',
-      'source',
-      'cultureId',
-      'subEthnicGroupId',
-    ])
-
-    const thumbnailFile = ctx.request.file('thumbnailFile', {
-      size: '5mb',
-      extnames: ['jpg', 'png', 'jpeg', 'webp', 'gif'],
-    })
-
-    if (!name || !cultureId) {
-      ctx.session.flashErrors({ error: 'Name/Title and Culture are required' })
-      return ctx.response.redirect().back()
+    const myth = await MythService.update(ctx)
+    if (myth) {
+      return ctx.response.redirect().toPath(`/admin/cultures/${myth.cultureId}/myths`)
     }
+    return ctx.response.redirect().back()
+  }
 
-    try {
-      const { default: Myth } = await import('#models/myth')
-      const myth = await Myth.findOrFail(id)
+  // Writings (moderation)
 
-      let thumbnailUrl = myth.thumbnail
-      if (thumbnailFile) {
-        if (!thumbnailFile.isValid) {
-          ctx.session.flashErrors({ error: 'Invalid thumbnail file. Please upload a valid image (max 5mb).' })
-          return ctx.response.redirect().back()
-        }
-        const { cuid } = await import('@adonisjs/core/helpers')
-        const app = (await import('@adonisjs/core/services/app')).default
-        const fileName = `${cuid()}.${thumbnailFile.extname}`
-        await thumbnailFile.move(app.makePath('public/myths'), {
-          name: fileName,
-          overwrite: true,
-        })
-        thumbnailUrl = `/myths/${fileName}`
-      } else {
-        const textUrl = ctx.request.input('thumbnail')
-        if (textUrl !== undefined) {
-          thumbnailUrl = textUrl
-        }
-      }
+  async renderWritings(ctx: HttpContext) {
+    return AdminRendererService.renderWritings(ctx)
+  }
 
-      // Calculate minutes to read based on word count of content
-      let minutesToRead = myth.minutesToRead
-      if (content !== undefined) {
-        // Strip HTML tags to get raw text
-        const plainText = content.replace(/<[^>]*>/g, ' ')
-        const words = plainText.trim().split(/\s+/)
-        const wordCount = words.length
-        minutesToRead = Math.max(1, Math.ceil(wordCount / 200))
-      }
+  async renderWritingReview(ctx: HttpContext) {
+    return AdminRendererService.renderWritingReview(ctx)
+  }
 
-      myth.name = name
-      if (thumbnailUrl !== undefined) myth.thumbnail = thumbnailUrl
-      if (content !== undefined) myth.content = content
-      if (status !== undefined) myth.status = status
-      if (source !== undefined) myth.source = source
-      if (subEthnicGroupId !== undefined) myth.subEthnicGroupId = subEthnicGroupId
-      myth.minutesToRead = minutesToRead
-
-      await myth.save()
-
-      return ctx.response.redirect().toPath(`/admin/cultures/${cultureId}/myths`)
-    } catch (error) {
-      console.error('updateMyth error:', error)
-      ctx.session.flashErrors({ error: 'Failed to update myth. Please try again.' })
-      return ctx.response.redirect().back()
+  async reviewWriting(ctx: HttpContext) {
+    const result = await WritingService.review(ctx)
+    if (result) {
+      return ctx.response.redirect().toPath('/admin/writings')
     }
+    return ctx.response.redirect().back()
+  }
+
+  async deleteWriting(ctx: HttpContext) {
+    await WritingService.delete(ctx)
+    return ctx.response.redirect().toPath('/admin/writings')
   }
 }

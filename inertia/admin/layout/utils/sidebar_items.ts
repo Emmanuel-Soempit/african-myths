@@ -17,6 +17,11 @@ export const SIDEBAR_ITEMS: SidebarItem[] = [
     href: '/admin/cultures',
   },
   {
+    label: 'Writings',
+    icon: 'history_edu',
+    href: '/admin/writings',
+  },
+  {
     label: 'Users',
     icon: 'group',
     href: '/admin/users',

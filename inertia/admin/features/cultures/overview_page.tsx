@@ -3,6 +3,7 @@ import { useState } from 'react'
 import Button from '~/shared/ui/button'
 import Culture from '#models/culture'
 import toast from 'react-hot-toast'
+import useDashboardContext from '~/shared/hooks/use_dashboard_context'
 
 interface StatCard {
     title: string
@@ -13,23 +14,25 @@ interface StatCard {
     link?: string
 }
 
-const STAT_CARDS: StatCard[] = [
+const buildStatCards = (basePath: string, canPublish: boolean): StatCard[] => [
     {
         title: 'Myths',
         description: 'Associated myths',
         icon: 'auto_stories',
         count: 0,
         linkText: 'View all myths',
-        link: '/admin/cultures/:cultureId/myths',
+        link: `${basePath}/cultures/:cultureId/myths`,
     },
-    {
-        title: 'Stories',
-        description: 'Cultural stories',
-        icon: 'history_edu',
-        count: 0,
-        linkText: 'View all stories',
-        link: '/admin/stories',
-    },
+    ...(canPublish
+        ? [{
+            title: 'Writings',
+            description: 'Poems, stories & articles',
+            icon: 'history_edu',
+            count: 0,
+            linkText: 'View all writings',
+            link: '/admin/writings',
+        }]
+        : []),
     // {
     //     title: 'Books',
     //     description: 'Related books',
@@ -58,15 +61,18 @@ interface AdminCultureOverviewPageProps {
 }
 
 export default function AdminCultureOverviewPage({ culture }: AdminCultureOverviewPageProps) {
+    const { basePath, apiBase, can } = useDashboardContext()
     const [status, setStatus] = useState(culture.status || 'draft')
     const [isUpdating, setIsUpdating] = useState(false)
+    const statCards = buildStatCards(basePath, can.publish)
+    const statusLocked = !can.publish && ['published', 'rejected'].includes(culture.status)
 
     const handleStatusChange = (newStatus: string) => {
         setIsUpdating(true)
         // @ts-ignore
         setStatus(newStatus)
 
-        router.put(`/api/v1/admin/cultures/${culture.id}`, {
+        router.put(`${apiBase}/cultures/${culture.id}`, {
             status: newStatus,
         }, {
             preserveScroll: true,
@@ -93,7 +99,7 @@ export default function AdminCultureOverviewPage({ culture }: AdminCultureOvervi
                 <div className="flex flex-col gap-2">
                     {/* Breadcrumb */}
                     <div className="flex items-center gap-2 text-sm text-[var(--color-admin-text-secondary-light)] dark:text-[var(--color-admin-text-secondary-dark)]">
-                        <a className="hover:text-[var(--color-admin-primary)]" href="/admin/cultures">
+                        <a className="hover:text-[var(--color-admin-primary)]" href={`${basePath}/cultures`}>
                             Cultures
                         </a>
                         <span>/</span>
@@ -113,10 +119,15 @@ export default function AdminCultureOverviewPage({ culture }: AdminCultureOvervi
                 </div>
                 <div className="flex gap-3 items-center">
                     {/* Status Dropdown Selector */}
+                    {statusLocked && (
+                        <span className="inline-flex items-center rounded-md px-2.5 py-1.5 text-xs font-semibold ring-1 ring-inset bg-green-50 text-green-700 ring-green-200 dark:bg-green-950/30 dark:text-green-300">
+                            {culture.status.charAt(0).toUpperCase() + culture.status.slice(1)}
+                        </span>
+                    )}
                     <div className="relative flex items-center">
                         <select
-                            disabled={isUpdating}
-                            value={status}
+                            disabled={isUpdating || statusLocked}
+                            value={statusLocked ? 'draft' : status}
                             onChange={(e) => handleStatusChange(e.target.value)}
                             className={`h-10 rounded-lg px-3 pr-8 text-sm font-semibold border bg-transparent cursor-pointer appearance-none transition-all outline-none focus:ring-1 focus:ring-[var(--color-admin-primary)] ${status === 'published' ? 'border-green-300 text-green-700 bg-green-50/50 dark:border-green-900/50 dark:text-green-300 dark:bg-green-950/20' :
                                     status === 'pending' ? 'border-yellow-300 text-yellow-700 bg-yellow-50/50 dark:border-yellow-900/50 dark:text-yellow-300 dark:bg-yellow-950/20' :
@@ -125,9 +136,13 @@ export default function AdminCultureOverviewPage({ culture }: AdminCultureOvervi
                                 }`}
                         >
                             <option value="draft" className="bg-white text-gray-800 dark:bg-gray-900 dark:text-white">Draft</option>
-                            <option value="pending" className="bg-white text-gray-800 dark:bg-gray-900 dark:text-white">Pending Review</option>
-                            <option value="published" className="bg-white text-gray-800 dark:bg-gray-900 dark:text-white">Published</option>
-                            <option value="rejected" className="bg-white text-gray-800 dark:bg-gray-900 dark:text-white">Rejected</option>
+                            <option value="pending" className="bg-white text-gray-800 dark:bg-gray-900 dark:text-white">{can.publish ? 'Pending Review' : 'Submit for review'}</option>
+                            {can.publish && (
+                                <>
+                                    <option value="published" className="bg-white text-gray-800 dark:bg-gray-900 dark:text-white">Published</option>
+                                    <option value="rejected" className="bg-white text-gray-800 dark:bg-gray-900 dark:text-white">Rejected</option>
+                                </>
+                            )}
                         </select>
                         <span className="material-symbols-outlined absolute right-2.5 pointer-events-none text-base text-gray-500 dark:text-gray-400">
                             arrow_drop_down
@@ -136,7 +151,7 @@ export default function AdminCultureOverviewPage({ culture }: AdminCultureOvervi
 
                     <Button
                         onClick={() => {
-                            router.visit(`/admin/cultures/${culture.id}/edit`)
+                            router.visit(`${basePath}/cultures/${culture.id}/edit`)
                         }}
                         variant="admin-primary"
                         className="h-10 min-w-[84px] max-w-[480px] px-4"
@@ -153,7 +168,7 @@ export default function AdminCultureOverviewPage({ culture }: AdminCultureOvervi
 
             {/* Statistics Cards Grid */}
             <div className="my-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                {STAT_CARDS.map((card) => (
+                {statCards.map((card) => (
                     <div
                         key={card.title}
                         className="rounded-xl border border-[var(--color-admin-border-light)] bg-[var(--color-admin-surface-light)] p-6 dark:border-[var(--color-admin-border-dark)] dark:bg-[var(--color-admin-surface-dark)]"

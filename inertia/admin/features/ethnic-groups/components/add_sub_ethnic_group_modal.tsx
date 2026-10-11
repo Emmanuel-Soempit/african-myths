@@ -5,6 +5,7 @@ import Button from '~/shared/ui/button'
 import TextArea from '~/shared/ui/textarea'
 import Select from '~/shared/ui/select'
 import useUtils from '~/shared/hooks/use_utils'
+import useDashboardContext from '~/shared/hooks/use_dashboard_context'
 import toast from 'react-hot-toast'
 
 interface CountryItem {
@@ -26,6 +27,7 @@ export default function AddSubEthnicGroupModal({
     onClose,
     ethnicGroupId,
 }: AddSubEthnicGroupModalProps) {
+    const { apiBase } = useDashboardContext()
     const { loadCountryOptions } = useUtils()
 
     const [countries, setCountries] = useState<CountryItem[]>([
@@ -75,7 +77,7 @@ export default function AddSubEthnicGroupModal({
                     </button>
                 </div>
                 <Form
-                    action={`/api/v1/admin/sub-ethnic-groups/${ethnicGroupId}`}
+                    action={`${apiBase}/sub-ethnic-groups/${ethnicGroupId}`}
                     method="POST"
                     onSuccess={() => {
                         toast.success('Subethic group added')

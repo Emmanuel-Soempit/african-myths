@@ -7,6 +7,7 @@ import Button from '~/shared/ui/button'
 import AddCultureModal from './components/add_culture_modal'
 import ConfirmDeleteModal from '~/shared/ui/confirm_delete_modal'
 import toast from 'react-hot-toast'
+import useDashboardContext from '~/shared/hooks/use_dashboard_context'
 
 interface AdminCulturesPageProps {
     cultures: TableData<Culture[]>
@@ -19,6 +20,7 @@ export default function AdminCulturesPage({
     sortBy,
     sortOrder,
 }: AdminCulturesPageProps) {
+    const { basePath, apiBase, can } = useDashboardContext()
     const [isAddModalOpen, setIsAddModalOpen] = useState(false)
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
     const [cultureToDelete, setCultureToDelete] = useState<Culture | null>(null)
@@ -28,7 +30,7 @@ export default function AdminCulturesPage({
         const newSortOrder =
             sortBy === columnKey && sortOrder === 'asc' ? 'desc' : 'asc'
 
-        router.visit('/admin/cultures', {
+        router.visit(`${basePath}/cultures`, {
             data: {
                 sortBy: columnKey,
                 sortOrder: newSortOrder,
@@ -42,7 +44,7 @@ export default function AdminCulturesPage({
     const handleDeleteConfirm = () => {
         if (!cultureToDelete) return
         setIsDeleting(true)
-        router.delete(`/api/v1/admin/cultures/${cultureToDelete.id}`, {
+        router.delete(`${apiBase}/cultures/${cultureToDelete.id}`, {
             preserveScroll: true,
             onSuccess: () => {
                 toast.success('Culture deleted')
@@ -124,29 +126,31 @@ export default function AdminCulturesPage({
     const renderActions = (culture: Culture) => (
         <div className="flex justify-end gap-1">
             <button
-                onClick={() => router.visit(`/admin/cultures/${culture.id}`)}
+                onClick={() => router.visit(`${basePath}/cultures/${culture.id}`)}
                 className="h-8 w-8 text-[var(--color-admin-text-secondary-light)] hover:text-[var(--color-admin-primary)] dark:text-[var(--color-admin-text-secondary-dark)]"
                 title="View"
             >
                 <span className="material-symbols-outlined text-xl">visibility</span>
             </button>
             <button
-                onClick={() => router.visit(`/admin/cultures/${culture.id}/edit`)}
+                onClick={() => router.visit(`${basePath}/cultures/${culture.id}/edit`)}
                 className="h-8 w-8 text-[var(--color-admin-text-secondary-light)] hover:text-[var(--color-admin-primary)] dark:text-[var(--color-admin-text-secondary-dark)]"
                 title="Edit"
             >
                 <span className="material-symbols-outlined text-xl">edit</span>
             </button>
-            <button
-                onClick={() => {
-                    setCultureToDelete(culture)
-                    setIsDeleteModalOpen(true)
-                }}
-                className="h-8 w-8 text-[var(--color-admin-text-secondary-light)] hover:text-red-500 dark:text-[var(--color-admin-text-secondary-dark)]"
-                title="Delete"
-            >
-                <span className="material-symbols-outlined text-xl">delete</span>
-            </button>
+            {can.delete && (
+                <button
+                    onClick={() => {
+                        setCultureToDelete(culture)
+                        setIsDeleteModalOpen(true)
+                    }}
+                    className="h-8 w-8 text-[var(--color-admin-text-secondary-light)] hover:text-red-500 dark:text-[var(--color-admin-text-secondary-dark)]"
+                    title="Delete"
+                >
+                    <span className="material-symbols-outlined text-xl">delete</span>
+                </button>
+            )}
         </div>
     )
 
@@ -195,7 +199,8 @@ export default function AdminCulturesPage({
                 onClose={() => setIsAddModalOpen(false)}
             />
 
-            <ConfirmDeleteModal
+            {can.delete && (
+                <ConfirmDeleteModal
                 isOpen={isDeleteModalOpen}
                 name={(cultureToDelete as any)?.name ?? ''}
                 loading={isDeleting}
@@ -205,7 +210,8 @@ export default function AdminCulturesPage({
                     setCultureToDelete(null)
                 }}
                 onYes={handleDeleteConfirm}
-            />
+                />
+            )}
         </>
     )
 }

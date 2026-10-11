@@ -4,8 +4,12 @@ import Role from '#models/role'
 import EthnicGroup from '#models/ethnic_group'
 import Culture from '#models/culture'
 import Myth from '#models/myth'
-import SubEthnicGroup from '#models/sub_ethnic_group'
+import Writing from '#models/writing'
 import { DateTime } from 'luxon'
+import { CultureService } from '#services/culture/culture_service'
+import { MythService } from '#services/myth/myth_service'
+import { EthicGroupService } from '#services/ethic_group/ethic_group_service'
+import { WritingService } from '#services/writing/writing_service'
 
 export class AdminRendererService {
   public static async renderDashboard(ctx: HttpContext) {
@@ -20,13 +24,20 @@ export class AdminRendererService {
       const totalUsersResult = await User.query().count('* as total')
       const totalUsers = Number(totalUsersResult[0].$extras.total || 0)
 
-      const pendingCulturesResult = await Culture.query().where('status', 'pending').count('* as total')
+      const pendingCulturesResult = await Culture.query()
+        .where('status', 'pending')
+        .count('* as total')
       const pendingCultures = Number(pendingCulturesResult[0].$extras.total || 0)
 
       const pendingMythsResult = await Myth.query().where('status', 'pending').count('* as total')
       const pendingMyths = Number(pendingMythsResult[0].$extras.total || 0)
 
-      const pendingApprovals = pendingCultures + pendingMyths
+      const pendingWritingsResult = await Writing.query()
+        .where('status', 'pending')
+        .count('* as total')
+      const pendingWritings = Number(pendingWritingsResult[0].$extras.total || 0)
+
+      const pendingApprovals = pendingCultures + pendingMyths + pendingWritings
 
       // New users in the last month
       const oneMonthAgo = DateTime.local().minus({ months: 1 })
@@ -48,13 +59,16 @@ export class AdminRendererService {
           totalEthnicGroups,
           totalUsers,
           pendingApprovals,
+          pendingWritings,
         },
         newUsers: newUsers.map((u) => u.serialize()),
         recentMyths: recentMyths.map((m) => m.serialize()),
       })
     } catch (error) {
       console.error('renderDashboard error:', error)
-      return ctx.inertia.render('errors/server_error', { error: error?.message || "Something went wrong" })
+      return ctx.inertia.render('errors/server_error', {
+        error: error?.message || 'Something went wrong',
+      })
     }
   }
 
@@ -108,8 +122,6 @@ export class AdminRendererService {
 
     const users = await query.paginate(page, limit)
 
-    console.log('Users', users)
-
     // Fetch all roles for the invitation modal
     const roles = await Role.all()
 
@@ -122,173 +134,91 @@ export class AdminRendererService {
   }
 
   public static async renderEthnicGroups(ctx: HttpContext) {
-    const page = ctx.request.input('page', 1)
-    const limit = 10
-    const sortBy = ctx.request.input('sortBy', 'createdAt')
-    const sortOrder = ctx.request.input('sortOrder', 'desc') as 'asc' | 'desc'
-
-    let query = EthnicGroup.query()
-
-    // Always load the count of sub-ethnic groups
-    query = query.withCount('subEthnicGroups')
-
-    // Apply sorting based on the column
-    if (sortBy === 'name') {
-      query = query.orderBy('canonicalName', sortOrder)
-    } else if (sortBy === 'subEthnicGroups') {
-      // Sort by count of sub-ethnic groups
-      query = query.orderBy('sub_ethnic_groups_count', sortOrder)
-    }
-
-    const ethnicGroups = await query.paginate(page, limit)
-
-    console.log('Ethic grops', ethnicGroups)
-
-    return ctx.inertia.render('admin/ethnic-groups', {
-      ethnicGroups: ethnicGroups,
-      sortBy,
-      sortOrder
-    })
+    return EthicGroupService.renderList(ctx, 'admin/ethnic-groups')
   }
 
   public static async renderEthnicGroupDetail(ctx: HttpContext) {
-    const { id } = ctx.params
-    const page = ctx.request.input('page', 1)
-    const limit = 10
-
-    try {
-      const ethnicGroup = await EthnicGroup.find(id)
-      if (!ethnicGroup) {
-        // return 404
-        return
-      }
-      await ethnicGroup.load('ethnicNameAliases')
-      await ethnicGroup.load('ethnicGroupCountries', (q) => {
-        q.preload('country')
-      })
-
-      // Paginate sub-ethnic groups
-      const subEthnicGroupsQuery = ethnicGroup.related('subEthnicGroups').query().preload('subEthnicGroupCountries', (q) => {
-        q.preload('country')
-      })
-      const subEthnicGroups = await subEthnicGroupsQuery.paginate(page, limit)
-      console.log('Sub Ethnic Groups', subEthnicGroups)
-
-      console.log('Language Id from ethnic group', ethnicGroup.languageId)
-      return ctx.inertia.render('admin/ethnic-group-detail', {
-        ethnicGroup,
-        subEthnicGroups
-      })
-    } catch (error) {
-      console.log(error)
-      return
-    }
+    return EthicGroupService.renderDetail(ctx, 'admin/ethnic-group-detail')
   }
 
   public static async renderCultures(ctx: HttpContext) {
-    const page = ctx.request.input('page', 1)
-    const limit = 10
-    const sortBy = ctx.request.input('sortBy', 'createdAt')
-    const sortOrder = ctx.request.input('sortOrder', 'desc') as 'asc' | 'desc'
-
-    let query = Culture.query()
-
-    // Apply sorting based on the column
-    if (sortBy === 'name') {
-      query = query.orderBy('name', sortOrder)
-    }
-
-    const cultures = await query.preload('ethnicGroup').paginate(page, limit)
-    console.log('Cultures', cultures)
-    return ctx.inertia.render('admin/cultures', {
-      cultures: cultures,
-      sortBy,
-      sortOrder
-    })
+    return CultureService.renderList(ctx, 'admin/cultures')
   }
 
   public static async renderCultureEdit(ctx: HttpContext) {
-    const { id } = ctx.params
-    const culture = await Culture.query()
-      .where('id', id)
-      .preload('ethnicGroup')
-      .firstOrFail()
-
-    return ctx.inertia.render('cultures/edit', { culture })
+    return CultureService.renderEdit(ctx, 'cultures/edit')
   }
 
   public static async renderCultureOverview(ctx: HttpContext) {
-    const { id } = ctx.params
-    const culture = await Culture.query()
-      .where('id', id)
-      .preload('ethnicGroup')
-      .firstOrFail()
-
-    return ctx.inertia.render('admin/culture-overview', { culture })
+    return CultureService.renderOverview(ctx, 'admin/culture-overview')
   }
 
   public static async renderMyths(ctx: HttpContext) {
-
-    try {
-      const cultureId = ctx.params.cultureId || ctx.request.input('cultureId')
-
-      console.log("Culute Id", cultureId)
-
-      if (!cultureId) {
-        throw new Error("No culture appended to this request")
-      }
-
-
-      const page = ctx.request.input('page', 1)
-      const limit = 10
-      const sortBy = ctx.request.input('sortBy', 'createdAt')
-      const sortOrder = ctx.request.input('sortOrder', 'desc') as 'asc' | 'desc'
-
-      const myths = await Myth.query().where("cultureId", cultureId)
-        .preload('culture')
-        .preload('author', (q) => q.preload('profile'))
-        .orderBy(sortBy === 'title' ? 'title' : 'created_at', sortOrder)
-        .paginate(page, limit)
-
-      return ctx.inertia.render('admin/myths', { myths, sortBy, sortOrder, cultureId })
-    } catch (error) {
-      console.log("Parsm", error?.message)
-      return ctx.inertia.render('errors/server_error', { error: error?.message || "Something went wrong" })
-    }
+    return MythService.renderList(ctx, 'admin/myths')
   }
 
   public static async renderMythCreate(ctx: HttpContext) {
-    try {
-
-      const cultureId = ctx.params.cultureId || ctx.request.input('cultureId')
-      const culture = (await Culture.query().where("id", cultureId).preload('ethnicGroup'))[0]
-      const subEthnicGroups = await SubEthnicGroup.query().where("ethnicGroupId", culture?.ethnicGroupId)
-      // const subEthnicGroups = await SubEthnicGroup.query().where().orderBy('name', 'asc')
-      return ctx.inertia.render('admin/myths/create', {
-        subEthnicGroups: subEthnicGroups.map((c) => ({ value: c.id, label: c.canonicalName })),
-        cultureId: cultureId
-      })
-    } catch (error) {
-      return ctx.inertia.render('errors/server_error', { error: error?.message || "Something went wrong" })
-    }
+    return MythService.renderCreate(ctx, 'admin/myths/create')
   }
 
   public static async renderMythEdit(ctx: HttpContext) {
+    return MythService.renderEdit(ctx, 'admin/myths/create')
+  }
+
+  public static async renderWritings(ctx: HttpContext) {
     try {
-      const { id, cultureId } = ctx.params
-      const { default: Myth } = await import('#models/myth')
-      const myth = await Myth.findOrFail(id)
+      const page = Number(ctx.request.input('page', 1))
+      const filters = {
+        type: ctx.request.input('type') as 'poem' | 'story' | 'article' | undefined,
+        status: ctx.request.input('status') as
+          | 'draft'
+          | 'pending'
+          | 'published'
+          | 'rejected'
+          | undefined,
+        cultureId: ctx.request.input('cultureId') as string | undefined,
+        page,
+        limit: 10,
+      }
+      const writings = await WritingService.listForAdmin(filters)
 
-      const culture = (await Culture.query().where("id", cultureId).preload('ethnicGroup'))[0]
-      const subEthnicGroups = await SubEthnicGroup.query().where("ethnicGroupId", culture?.ethnicGroupId)
-
-      return ctx.inertia.render('admin/myths/create', {
-        subEthnicGroups: subEthnicGroups.map((c) => ({ value: c.id, label: c.canonicalName })),
-        cultureId: cultureId,
-        myth: myth.serialize()
+      return ctx.inertia.render('admin/writings', {
+        writings: writings.serialize(),
+        filters: {
+          type: filters.type ?? '',
+          status: filters.status ?? 'pending',
+          cultureId: filters.cultureId ?? '',
+        },
       })
     } catch (error) {
-      return ctx.inertia.render('errors/server_error', { error: error?.message || "Something went wrong" })
+      console.error('renderWritings error:', error)
+      return ctx.inertia.render('errors/server_error', {
+        error: error?.message || 'Something went wrong',
+      })
+    }
+  }
+
+  public static async renderWritingReview(ctx: HttpContext) {
+    try {
+      const writing = await Writing.query()
+        .where('id', ctx.params.id)
+        .preload('culture')
+        .preload('author', (q) => q.preload('profile'))
+        .preload('reviewer', (q) => q.preload('profile'))
+        .first()
+
+      if (!writing) {
+        return ctx.inertia.render('errors/not_found')
+      }
+
+      return ctx.inertia.render('admin/writing-review', {
+        writing: writing.serialize(),
+      })
+    } catch (error) {
+      console.error('renderWritingReview error:', error)
+      return ctx.inertia.render('errors/server_error', {
+        error: error?.message || 'Something went wrong',
+      })
     }
   }
 }

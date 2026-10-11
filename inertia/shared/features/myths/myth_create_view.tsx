@@ -5,6 +5,7 @@ import Button from '~/shared/ui/button'
 import Input from '~/shared/ui/input'
 import Select from '~/shared/ui/select'
 import EditorSection from '~/shared/ui/editor-section'
+import useDashboardContext from '~/shared/hooks/use_dashboard_context'
 
 interface MythCreateViewProps {
     subEthnicGroups: Array<{ value: string; label: string }>
@@ -13,6 +14,7 @@ interface MythCreateViewProps {
 }
 
 export default function MythCreateView({ subEthnicGroups, cultureId, myth }: MythCreateViewProps) {
+    const { basePath, apiBase, can } = useDashboardContext()
     const [content, setContent] = useState(myth?.content || '')
     const [status, setStatus] = useState(myth?.status || 'draft')
     const [subEthinicGroupId, setSubEthinicGroupId] = useState(myth?.subEthnicGroupId || '')
@@ -47,15 +49,21 @@ export default function MythCreateView({ subEthnicGroups, cultureId, myth }: Myt
         })
     }
 
-    const statusOptions = [
-        { value: 'draft', label: 'Draft' },
-        { value: 'published', label: 'Published' },
-        { value: 'pending', label: 'Pending Review' },
-        { value: 'rejected', label: 'Rejected' },
-    ]
+    const statusOptions = can.publish
+        ? [
+            { value: 'draft', label: 'Draft' },
+            { value: 'published', label: 'Published' },
+            { value: 'pending', label: 'Pending Review' },
+            { value: 'rejected', label: 'Rejected' },
+        ]
+        : [
+            { value: 'draft', label: 'Draft' },
+            { value: 'pending', label: 'Submit for review' },
+        ]
+    const statusLocked = !can.publish && ['published', 'rejected'].includes(myth?.status)
 
     const isEdit = !!myth
-    const action = isEdit ? `/api/v1/admin/myths/${myth.id}` : '/api/v1/admin/myths'
+    const action = isEdit ? `${apiBase}/myths/${myth.id}` : `${apiBase}/myths`
     const method = isEdit ? 'PUT' : 'POST'
 
     return (
@@ -65,7 +73,7 @@ export default function MythCreateView({ subEthnicGroups, cultureId, myth }: Myt
                 disableWhileProcessing
                 onSuccess={() => {
                     toast.success(isEdit ? 'Myth updated successfully!' : 'Myth created successfully!')
-                    router.visit(`/admin/cultures/${cultureId}/myths`)
+                    router.visit(`${basePath}/cultures/${cultureId}/myths`)
                 }}
                 onError={(errors: any) => {
                     if (errors.error) {
@@ -98,7 +106,7 @@ export default function MythCreateView({ subEthnicGroups, cultureId, myth }: Myt
                             <div className="flex items-center gap-4">
                                 <button
                                     type="button"
-                                    onClick={() => router.visit(`/admin/cultures/${cultureId}/myths`)}
+                                    onClick={() => router.visit(`${basePath}/cultures/${cultureId}/myths`)}
                                     className="rounded-lg border border-[var(--color-admin-border-light)] bg-transparent px-5 py-2.5 text-sm font-semibold text-[var(--color-admin-text-primary-light)] transition-colors hover:bg-[var(--color-admin-surface-light)] dark:border-[var(--color-admin-border-dark)] dark:text-[var(--color-admin-text-primary-dark)] dark:hover:bg-[var(--color-admin-surface-dark)]"
                                 >
                                     Cancel
@@ -279,20 +287,31 @@ export default function MythCreateView({ subEthnicGroups, cultureId, myth }: Myt
                                     </div>
 
                                     <div className="space-y-2">
-                                        <Select
-                                            label="Publication Status"
-                                            id="statusSelect"
-                                            name="statusSelect"
-                                            variant="admin-primary"
-                                            placeholder="Select status..."
-                                            errors={errors}
-                                            setError={setError}
-                                            options={statusOptions}
-                                            value={status}
-                                            onChange={(e) => {
-                                                setStatus(e.target.value)
-                                            }}
-                                        />
+                                        {statusLocked ? (
+                                            <div>
+                                                <p className="text-sm font-semibold text-[var(--color-admin-text-primary-light)] dark:text-[var(--color-admin-text-primary-dark)] mb-2">
+                                                    Publication Status
+                                                </p>
+                                                <span className="inline-flex items-center rounded-md px-2.5 py-1.5 text-xs font-semibold ring-1 ring-inset bg-green-50 text-green-700 ring-green-200 dark:bg-green-950/30 dark:text-green-300 capitalize">
+                                                    {myth.status}
+                                                </span>
+                                            </div>
+                                        ) : (
+                                            <Select
+                                                label="Publication Status"
+                                                id="statusSelect"
+                                                name="statusSelect"
+                                                variant="admin-primary"
+                                                placeholder="Select status..."
+                                                errors={errors}
+                                                setError={setError}
+                                                options={statusOptions}
+                                                value={status}
+                                                onChange={(e) => {
+                                                    setStatus(e.target.value)
+                                                }}
+                                            />
+                                        )}
                                     </div>
 
                                     <div className="pt-4 border-t border-[var(--color-admin-border-light)]/50 dark:border-[var(--color-admin-border-dark)]/50 text-xs text-[var(--color-admin-text-secondary-light)] dark:text-[var(--color-admin-text-secondary-dark)] space-y-2">
