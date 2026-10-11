@@ -5,7 +5,7 @@ import { type HasMany, type BelongsTo } from '@adonisjs/lucid/types/relations'
 import EthnicNameAlias from './ethnic_name_alias.js'
 import EthnicGroupCountry from './ethnic_group_country.js'
 import SubEthnicGroup from './sub_ethnic_group.js'
-import { randomUUID } from 'crypto'
+import { randomUUID } from 'node:crypto'
 import Culture from './culture.js'
 
 export default class EthnicGroup extends BaseModel {
@@ -20,6 +20,12 @@ export default class EthnicGroup extends BaseModel {
 
   @column()
   declare note: string
+
+  @column()
+  declare aiGenerated: boolean
+
+  @column.dateTime()
+  declare aiReviewedAt: DateTime | null
 
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime
