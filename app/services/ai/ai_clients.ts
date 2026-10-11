@@ -79,6 +79,7 @@ export async function deepseekChatJson(options: {
         model,
         response_format: { type: 'json_object' },
         temperature: 0.7,
+        max_tokens: 8192,
         messages: [
           { role: 'system', content: options.system },
           { role: 'user', content: options.user },
@@ -94,7 +95,8 @@ export async function deepseekChatJson(options: {
       try {
         data = JSON.parse(content)
       } catch {
-        throw new AiClientError(`DeepSeek returned invalid JSON: ${content.slice(0, 200)}`)
+        // Malformed or truncated output is transient — worth a retry
+        throw new AiClientError(`DeepSeek returned invalid JSON: ${content.slice(0, 200)}`, true)
       }
 
       return {
