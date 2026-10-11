@@ -64,4 +64,14 @@ export default await Env.create(new URL('../', import.meta.url), {
   TYPESAFE_BASE_URL: Env.schema.string.optional(),
   TYPESAFE_MODEL: Env.schema.string.optional(),
   AI_TOKEN_BUDGET: Env.schema.number.optional(),
+
+  /*
+  |----------------------------------------------------------
+  | Variables for file/image uploads
+  |----------------------------------------------------------
+  */
+  STORAGE_DRIVER: Env.schema.enum.optional(['local', 'cloudinary'] as const),
+  CLOUDINARY_CLOUD_NAME: Env.schema.string.optional(),
+  CLOUDINARY_API_KEY: Env.schema.string.optional(),
+  CLOUDINARY_API_SECRET: Env.schema.string.optional(),
 })

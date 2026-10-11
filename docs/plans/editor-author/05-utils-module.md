@@ -4,7 +4,7 @@
 - `app/controllers/utils_controller.ts`:
   - `searchLanguages` (~L13) and `searchCountry` (~L43): public, paginated, `ilike`.
   - `getLanguageById` (~L25) and `getCountryById` (~L55): contain `console.log` calls, and `throw new Error` when there is no id.
-  - `uploadFile` (~L72): 5 MB image, moved to `public/cultures/<cuid>.<ext>`, returns `{ url }`.
+  - `uploadFile` (~L72): delegates to `app/services/upload/upload_service.ts` (`UploadService.uploadImage`), accepts an optional `folder` param (`cultures|myths|writings`, default `cultures`), returns `{ url }`. Storage driver is `STORAGE_DRIVER` env (`local` → `public/<folder>`, `cloudinary` → Cloudinary).
   - `searchEthnicGroups` (~L99): public, limit 100.
   - `searchSubEthnicGroups` (~L115): **no route points to it**.
 - `start/routes/api.ts`:
@@ -24,7 +24,7 @@ Let admins, editors and authors upload images, add a culture search endpoint for
 ## 4. Backend tasks
 - [ ] Add a role-protected upload route: `POST /api/v1/upload` behind `auth` + `role(['admin','editor','author'])`, handled by `UtilsController.uploadFile`.
 - [ ] Keep `POST /api/v1/admin/upload` as an alias for one release, with a `// deprecated: use /api/v1/upload` comment. It can be removed once nothing calls it.
-- [ ] `uploadFile` takes an optional `folder` input from a whitelist: `cultures | myths | writings` (default `cultures`). It moves the file to `public/<folder>` and returns `{ url: '/<folder>/<file>' }`.
+- [ ] `uploadFile` already accepts an optional `folder` whitelist (`cultures|myths|writings`, default `cultures`) via `UploadService.uploadImage` — keep that behaviour.
 - [ ] Add `searchCultures(ctx)`:
   - `GET /api/v1/culture?search=&limit=`, public.
   - Returns `[{ id, name, ethnicGroupName }]`, **published only**, ordered by name, limit 50.

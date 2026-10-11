@@ -1,6 +1,5 @@
 import type { HttpContext } from '@adonisjs/core/http'
-import app from '@adonisjs/core/services/app'
-import { cuid } from '@adonisjs/core/helpers'
+import { UploadService } from '#services/upload/upload_service'
 
 import Language from "#models/language"
 import Country from '#models/country'
@@ -84,15 +83,18 @@ export default class UtilsController {
             return ctx.response.badRequest({ error: image.errors })
         }
 
-        const fileName = `${cuid()}.${image.extname}`
+        const folder = ctx.request.input('folder', 'cultures')
+        if (!UploadService.isValidFolder(folder)) {
+            return ctx.response.badRequest({ error: 'Invalid upload folder' })
+        }
 
-        await image.move(app.makePath('public/cultures'), {
-            name: fileName,
-            overwrite: true,
-        })
-
-        return {
-            url: `/cultures/${fileName}`
+        try {
+            const { url } = await UploadService.uploadImage(image, folder)
+            return { url }
+        } catch (error) {
+            return ctx.response.badRequest({
+                error: error instanceof Error ? error.message : 'Upload failed',
+            })
         }
     }
 
