@@ -2,7 +2,7 @@ import { DateTime } from 'luxon'
 import { BaseModel, beforeCreate, belongsTo, column } from '@adonisjs/lucid/orm'
 import EthnicGroup from './ethnic_group.js'
 import { type BelongsTo } from '@adonisjs/lucid/types/relations'
-import { randomUUID } from 'crypto'
+import { randomUUID } from 'node:crypto'
 
 export default class EthnicNameAlias extends BaseModel {
   @column({ isPrimary: true })
@@ -15,10 +15,10 @@ export default class EthnicNameAlias extends BaseModel {
   declare nameVariant: string
 
   @column()
-  declare langaugeOfNameVariant: string
+  declare langaugeOfNameVariant: string | null
 
   @column()
-  declare source: string
+  declare source: string | null
 
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime

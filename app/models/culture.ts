@@ -2,7 +2,7 @@ import { DateTime } from 'luxon'
 import { BaseModel, beforeCreate, belongsTo, column, hasMany } from '@adonisjs/lucid/orm'
 import EthnicGroup from './ethnic_group.js'
 import { type HasMany, type BelongsTo } from '@adonisjs/lucid/types/relations'
-import { randomUUID } from 'crypto'
+import { randomUUID } from 'node:crypto'
 import User from './user.js'
 import Myth from './myth.js'
 
@@ -23,13 +23,19 @@ export default class Culture extends BaseModel {
   declare language: string
 
   @column()
-  declare status: "draft" | "published" | "pending" | "rejected"
+  declare status: 'draft' | 'published' | 'pending' | 'rejected'
 
   @column()
   declare ethnicGroupId: string
 
   @column()
   declare authorId: string
+
+  @column()
+  declare aiGenerated: boolean
+
+  @column.dateTime()
+  declare aiReviewedAt: DateTime | null
 
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime
