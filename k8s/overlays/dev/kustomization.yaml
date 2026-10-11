@@ -17,6 +17,7 @@ resources:
 - ../../base
 - secrets/configmap.yaml
 - ingress.yaml
+- redirect-https.yaml
 
 patches:
 - target:

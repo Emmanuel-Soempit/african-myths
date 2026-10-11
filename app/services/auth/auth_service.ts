@@ -74,13 +74,55 @@ export class AuthService {
   }
 
   public static async googleCallback({ ally, response, session, auth }: HttpContext) {
-    const googleUser = await ally.use('google').user()
+    const google = ally.use('google')
+    const oauthError = google.accessDenied()
+      ? 'Google sign in was cancelled'
+      : google.stateMisMatch()
+        ? 'Your Google sign in session expired, please try again'
+        : google.hasError()
+          ? 'Something went wrong during Google sign in'
+          : null
+    if (oauthError) {
+      session.flashErrors({ error: oauthError })
+      return response.redirect().toPath('/auth/sign-up')
+    }
+
+    const googleUser = await google.user()
+
+    const readerRole = await Role.findBy('name', 'reader')
+    if (!readerRole) {
+      session.flashErrors({
+        error: 'Could not find reader role',
+      })
+      return response.redirect().toPath('/auth/sign-up')
+    }
 
     const exsitingUser = await User.findBy('email', googleUser.email)
     if (exsitingUser) {
       await exsitingUser.load('metadata', async (query) => {
         await query.preload('role')
       })
+      if (!exsitingUser.metadata?.role) {
+        await db.transaction(async (client) => {
+          exsitingUser.useTransaction(client)
+          await exsitingUser.related('roles').sync([readerRole.id], false)
+          if (exsitingUser.metadata) {
+            exsitingUser.metadata.useTransaction(client)
+            exsitingUser.metadata.activeRoleId = readerRole.id
+            await exsitingUser.metadata.save()
+          } else {
+            await exsitingUser.related('metadata').create({
+              signUpMethod: 'google',
+              signUpType: 'organic',
+              emailVerifiedAt: DateTime.now(),
+              activeRoleId: readerRole.id,
+            })
+          }
+        })
+        await exsitingUser.load('metadata', async (query) => {
+          await query.preload('role')
+        })
+      }
       await auth.use('web').login(exsitingUser)
       // console.log('User', exsitingUser.metadata.role.name)
       const routePath = AuthUtil.roleBasedRedirectRoute(exsitingUser.metadata.role)
@@ -88,7 +130,7 @@ export class AuthService {
     }
 
     try {
-      return db.transaction(async (client) => {
+      return await db.transaction(async (client) => {
         const user = await User.create(
           {
             email: googleUser.email,
@@ -96,15 +138,8 @@ export class AuthService {
           },
           { client }
         )
-        const readerRole = await Role.findBy('name', 'reader')
-        if (!readerRole) {
-          session.flashErrors({
-            error: 'Could not find reader role',
-          })
-          return response.redirect().toPath('/auth/sign-up')
-        }
 
-        await user.related('roles').attach([readerRole!.id])
+        await user.related('roles').attach([readerRole.id])
         await user.related('metadata').create({
           signUpMethod: 'google',
           signUpType: 'organic',
