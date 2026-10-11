@@ -3,7 +3,7 @@ import { BaseModel, beforeCreate, belongsTo, column, hasMany } from '@adonisjs/l
 import { type BelongsTo, type HasMany } from '@adonisjs/lucid/types/relations'
 import EthnicGroup from './ethnic_group.js'
 import SubEthnicGroupCountry from './sub_ethnic_group_country.js'
-import { randomUUID } from 'crypto'
+import { randomUUID } from 'node:crypto'
 import Myth from './myth.js'
 
 export default class SubEthnicGroup extends BaseModel {
@@ -18,6 +18,12 @@ export default class SubEthnicGroup extends BaseModel {
 
   @column()
   declare note: string
+
+  @column()
+  declare aiGenerated: boolean
+
+  @column.dateTime()
+  declare aiReviewedAt: DateTime | null
 
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime

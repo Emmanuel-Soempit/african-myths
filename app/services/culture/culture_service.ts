@@ -2,6 +2,7 @@ import Culture from '#models/culture'
 import { createCultureValidator, updateCultureValidator } from '#validators/culture'
 import { canDelete, resolveStatus } from '../../util/content_status.js'
 import AuthUtil from '../../util/auth_util.js'
+import { UploadService } from '#services/upload/upload_service'
 import type { HttpContext } from '@adonisjs/core/http'
 
 export class CultureService {
@@ -69,6 +70,7 @@ export class CultureService {
         ctx.session.flashErrors({ error: 'Culture not found' })
         return false
       }
+      await UploadService.destroyByUrl(culture.thumbnail)
       await culture.delete()
       return true
     } catch (error) {

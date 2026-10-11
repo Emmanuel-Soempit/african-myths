@@ -51,4 +51,27 @@ export default await Env.create(new URL('../', import.meta.url), {
   */
   GOOGLE_CLIENT_ID: Env.schema.string(),
   GOOGLE_CLIENT_SECRET: Env.schema.string(),
+
+  /*
+  |----------------------------------------------------------
+  | Variables for AI population jobs (ace populate:*)
+  |----------------------------------------------------------
+  */
+  DEEPSEEK_API_KEY: Env.schema.string.optional(),
+  DEEPSEEK_BASE_URL: Env.schema.string.optional(),
+  DEEPSEEK_MODEL: Env.schema.string.optional(),
+  TYPESAFE_API_KEY: Env.schema.string.optional(),
+  TYPESAFE_BASE_URL: Env.schema.string.optional(),
+  TYPESAFE_MODEL: Env.schema.string.optional(),
+  AI_TOKEN_BUDGET: Env.schema.number.optional(),
+
+  /*
+  |----------------------------------------------------------
+  | Variables for file/image uploads
+  |----------------------------------------------------------
+  */
+  STORAGE_DRIVER: Env.schema.enum.optional(['local', 'cloudinary'] as const),
+  CLOUDINARY_CLOUD_NAME: Env.schema.string.optional(),
+  CLOUDINARY_API_KEY: Env.schema.string.optional(),
+  CLOUDINARY_API_SECRET: Env.schema.string.optional(),
 })

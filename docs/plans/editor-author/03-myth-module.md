@@ -4,7 +4,7 @@
 - **Controller logic is inline** in `app/controllers/admin_controller.ts`:
   - `createMyth` (~L168):
     - Reads `name`, `content`, `status`, `source`, `cultureId` and `subEthnicGroupId`.
-    - Takes an optional `thumbnailFile` (5 MB, jpg/png/jpeg/webp/gif) and moves it to `public/myths/<cuid>.<ext>`. Otherwise it falls back to the `thumbnail` text input.
+    - Takes an optional `thumbnailFile` (5 MB, jpg/png/jpeg/webp/gif) and uploads it via `UploadService.uploadImage(file, 'myths')` (`app/services/upload/upload_service.ts`). Otherwise it falls back to the `thumbnail` text input.
     - Calculates reading time inline, creates the myth with `authorId = auth.user.id`, and redirects to `/admin/cultures/:cultureId/myths`.
   - `updateMyth` (~L244): same flow on an existing myth. **It accepts any `status` from the client.**
   - There is no delete method (out of scope).
@@ -36,7 +36,7 @@ Move myth create/update into one service used by admin and editor, and let edito
 export class MythService {
   static async create(ctx: HttpContext): Promise<Myth | null>
   static async update(ctx: HttpContext): Promise<Myth | null>
-  /** shared by create/update: handles thumbnailFile upload or text fallback */
+  /** shared by create/update: UploadService upload or text fallback; on update, destroyByUrl the replaced thumbnail */
   private static async resolveThumbnail(ctx: HttpContext, current?: string): Promise<string | null /* null = invalid file, error flashed */>
 }
 ```

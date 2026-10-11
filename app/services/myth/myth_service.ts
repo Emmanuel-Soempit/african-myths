@@ -6,8 +6,7 @@ import { resolveStatus } from '../../util/content_status.js'
 import { calculateReadingTime } from '../../util/reading_time.js'
 import AuthUtil from '../../util/auth_util.js'
 import type { HttpContext } from '@adonisjs/core/http'
-import app from '@adonisjs/core/services/app'
-import { cuid } from '@adonisjs/core/helpers'
+import { UploadService } from '#services/upload/upload_service'
 
 export class MythService {
   public static async create(ctx: HttpContext): Promise<Myth | null> {
@@ -125,12 +124,9 @@ export class MythService {
         })
         return null
       }
-      const fileName = `${cuid()}.${thumbnailFile.extname}`
-      await thumbnailFile.move(app.makePath('public/myths'), {
-        name: fileName,
-        overwrite: true,
-      })
-      return `/myths/${fileName}`
+      const { url } = await UploadService.uploadImage(thumbnailFile, 'myths')
+      await UploadService.destroyByUrl(current)
+      return url
     }
 
     const textUrl = ctx.request.input('thumbnail')
@@ -173,7 +169,10 @@ export class MythService {
   public static async renderCreate(ctx: HttpContext, view: string) {
     try {
       const cultureId = ctx.params.cultureId || ctx.request.input('cultureId')
-      const culture = await Culture.query().where('id', cultureId).preload('ethnicGroup').firstOrFail()
+      const culture = await Culture.query()
+        .where('id', cultureId)
+        .preload('ethnicGroup')
+        .firstOrFail()
       const subEthnicGroups = await SubEthnicGroup.query().where(
         'ethnicGroupId',
         culture.ethnicGroupId
@@ -195,7 +194,10 @@ export class MythService {
       const { id, cultureId } = ctx.params
       const myth = await Myth.findOrFail(id)
 
-      const culture = await Culture.query().where('id', cultureId).preload('ethnicGroup').firstOrFail()
+      const culture = await Culture.query()
+        .where('id', cultureId)
+        .preload('ethnicGroup')
+        .firstOrFail()
       const subEthnicGroups = await SubEthnicGroup.query().where(
         'ethnicGroupId',
         culture.ethnicGroupId

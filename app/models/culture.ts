@@ -33,6 +33,12 @@ export default class Culture extends BaseModel {
   @column()
   declare authorId: string
 
+  @column()
+  declare aiGenerated: boolean
+
+  @column.dateTime()
+  declare aiReviewedAt: DateTime | null
+
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime
 
