@@ -6,6 +6,7 @@ import { Form } from '@inertiajs/react'
 import { toast } from 'react-hot-toast'
 import { SelectorOption } from '~/types'
 import useUtils from '~/shared/hooks/use_utils'
+import useDashboardContext from '~/shared/hooks/use_dashboard_context'
 
 interface AddCultureModalProps {
     isOpen: boolean
@@ -13,6 +14,7 @@ interface AddCultureModalProps {
 }
 
 export default function AddCultureModal({ isOpen, onClose }: AddCultureModalProps) {
+    const { apiBase } = useDashboardContext()
     const [ethnicGroupList, setEthnicGroupList] = useState<SelectorOption[]>([])
     const { loadEthnicGroupOptions } = useUtils()
 
@@ -58,7 +60,7 @@ export default function AddCultureModal({ isOpen, onClose }: AddCultureModalProp
                             toast.error('Failed to add culture')
                         }
                     }}
-                    action="/api/v1/admin/cultures"
+                    action={`${apiBase}/cultures`}
                     className="mt-6 space-y-5"
                     method="POST"
                 >

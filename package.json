@@ -37,6 +37,7 @@
     "@adonisjs/prettier-config": "^1.4.4",
     "@adonisjs/tsconfig": "^1.4.0",
     "@base-ui/react": "^1.4.1",
+    "@japa/api-client": "^3.2.1",
     "@japa/assert": "^4.0.1",
     "@japa/plugin-adonisjs": "^4.0.0",
     "@japa/runner": "^4.2.0",

@@ -7,6 +7,7 @@ import { Form } from '@inertiajs/react'
 import { toast } from 'react-hot-toast'
 import { SelectorOption } from '~/types'
 import useUtils from '~/shared/hooks/use_utils'
+import useDashboardContext from '~/shared/hooks/use_dashboard_context'
 
 interface AddEthnicGroupModalProps {
     isOpen: boolean
@@ -42,6 +43,7 @@ export default function AddEthnicGroupModal({
     const [languageList, setLanguageList] = useState<SelectorOption[]>([])
     const [countryList, setCountryList] = useState<SelectorOption[]>([])
 
+    const { apiBase } = useDashboardContext()
     const { loadLanguageOptions, loadCountryOptions } = useUtils()
 
 
@@ -126,7 +128,7 @@ export default function AddEthnicGroupModal({
                             toast.error('Failed to add ethnic group')
                         }
                     }}
-                    action="/api/v1/admin/ethnic-groups"
+                    action={`${apiBase}/ethnic-groups`}
                     className="mt-6 space-y-5 overflow-y-auto max-h-[80%] thin-scrollbar px-5"
                     method="POST"
                 >

@@ -7,13 +7,14 @@ import { getCsrfToken } from '~/lib/tiptap-utils'
 import { router } from '@inertiajs/react'
 import { toast } from 'react-hot-toast'
 import Culture from '#models/culture'
+import useDashboardContext from '~/shared/hooks/use_dashboard_context'
 
 // ─── Helpers ─────────────────────────────────────────────────────────────────
 
-function patchCulture(id: string, payload: Record<string, string>) {
+function patchCulture(apiBase: string, id: string, payload: Record<string, string>) {
     return new Promise<void>((resolve, reject) => {
         router.put(
-            `/api/v1/admin/cultures/${id}`,
+            `${apiBase}/cultures/${id}`,
             payload,
             {
                 preserveScroll: true,
@@ -102,6 +103,7 @@ function EditableHero({ title, summary, imageUrl, onImageUpload }: EditableHeroP
         try {
             const formData = new FormData()
             formData.append('image', file)
+            formData.append('folder', 'cultures')
 
             const token = getCsrfToken()
             const headers: Record<string, string> = {}
@@ -113,7 +115,7 @@ function EditableHero({ title, summary, imageUrl, onImageUpload }: EditableHeroP
                 }
             }
 
-            const response = await fetch('/api/v1/admin/upload', {
+            const response = await fetch('/api/v1/upload', {
                 method: 'POST',
                 headers,
                 body: formData,
@@ -187,6 +189,7 @@ interface CultureEditViewProps {
 }
 
 export default function CultureEditView({ culture }: CultureEditViewProps) {
+    const { apiBase } = useDashboardContext()
     const [activeSection, setActiveSection] = useState('history')
 
     // Local thumbnail state so the hero updates immediately on upload
@@ -226,13 +229,13 @@ export default function CultureEditView({ culture }: CultureEditViewProps) {
     }, [])
 
     const handleSaveField = async (field: string, content: string) => {
-        await patchCulture(culture.id, { [field]: content })
+        await patchCulture(apiBase, culture.id, { [field]: content })
     }
 
     const handleImageUpload = async (newUrl: string) => {
         setThumbnailUrl(newUrl)
         try {
-            await patchCulture(culture.id, { thumbnail: newUrl })
+            await patchCulture(apiBase, culture.id, { thumbnail: newUrl })
             toast.success('Cover image saved!')
         } catch {
             toast.error('Image uploaded but failed to save URL')

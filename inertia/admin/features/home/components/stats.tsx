@@ -3,7 +3,7 @@ export default function Stats({ stats }: { stats?: any }) {
         { label: 'Total Cultures', value: stats?.totalCultures?.toLocaleString() ?? '78', link: '/admin/cultures' },
         { label: 'Total Ethnic Groups', value: stats?.totalEthnicGroups?.toLocaleString() ?? '24', link: '/admin/ethnic-groups' },
         { label: 'Registered Users', value: stats?.totalUsers?.toLocaleString() ?? '8,621', link: '/admin/users' },
-        { label: 'Pending Approvals', value: stats?.pendingApprovals?.toLocaleString() ?? '12', link: '#' },
+        { label: 'Pending Approvals', value: stats?.pendingApprovals?.toLocaleString() ?? '12', link: '/admin/writings?status=pending' },
     ]
 
     return (

@@ -10,6 +10,7 @@ import { type ManyToMany, type HasOne, type HasMany } from '@adonisjs/lucid/type
 import Role from './role.js'
 import Culture from './culture.js'
 import Myth from './myth.js'
+import Writing from './writing.js'
 
 const AuthFinder = withAuthFinder(() => hash.use('scrypt'), {
   uids: ['email'],
@@ -44,6 +45,11 @@ export default class User extends compose(BaseModel, AuthFinder) {
 
   @hasMany(() => Myth)
   declare myths: HasMany<typeof Myth>
+
+  @hasMany(() => Writing, {
+    foreignKey: 'authorId',
+  })
+  declare writings: HasMany<typeof Writing>
 
   @manyToMany(() => Role)
   declare roles: ManyToMany<typeof Role>

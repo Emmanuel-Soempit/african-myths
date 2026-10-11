@@ -33,7 +33,8 @@ const inertiaConfig = defineConfig({
    * Options for the server-side rendering
    */
   ssr: {
-    enabled: true,
+    // SSR needs the Vite dev server or a built bundle, neither of which exists in tests
+    enabled: process.env.NODE_ENV !== 'test',
     entrypoint: 'inertia/app/ssr.tsx',
   },
 })

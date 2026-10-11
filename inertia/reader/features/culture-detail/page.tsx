@@ -1,9 +1,10 @@
 import FadeIn from "~/shared/ui/animations/fade_in";
 import { StaggerContainer } from "~/shared/ui/animations/stagger_container";
 import { ContentHero, MythsSection, ResourcesSection, SectionCard, StatCard, TableOfContent } from "./components";
+import WritingsSection from "./components/writings-section";
 import { culture_dummy } from "./utils/dummy";
 
-export default function CultureDetailPage({ culture, myths }: { culture?: any, myths?: any[] }) {
+export default function CultureDetailPage({ culture, myths, writings }: { culture?: any, myths?: any[], writings?: any }) {
     const hasCulture = !!culture;
 
     const title = culture?.name || culture_dummy.title;
@@ -65,9 +66,14 @@ export default function CultureDetailPage({ culture, myths }: { culture?: any, m
 
     const displayMyths = hasCulture ? (myths || []) : culture_dummy.myths;
 
+    const hasWritings = !!writings && ['poems', 'stories', 'articles'].some((k) => (writings[k] ?? []).length > 0);
+
     const tocContents = sections.map(s => s.slug);
     if (displayMyths.length > 0) {
         tocContents.push('myths');
+    }
+    if (hasWritings) {
+        tocContents.push('writings');
     }
     tocContents.push('resources');
 
@@ -100,6 +106,7 @@ export default function CultureDetailPage({ culture, myths }: { culture?: any, m
                         </StaggerContainer>
 
                         {displayMyths.length > 0 && <MythsSection myths={displayMyths} />}
+                        {hasWritings && <WritingsSection writings={writings} />}
                         <ResourcesSection resources={culture_dummy.resources} />
                     </div>
                 </div>

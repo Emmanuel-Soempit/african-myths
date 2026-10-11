@@ -13,4 +13,8 @@ export default class ReaderController {
   async renderCultureDetail(ctx: HttpContext) {
     return ReaderRendererService.renderCultureDetail(ctx)
   }
+
+  async renderWritingDetail(ctx: HttpContext) {
+    return ReaderRendererService.renderWritingDetail(ctx)
+  }
 }

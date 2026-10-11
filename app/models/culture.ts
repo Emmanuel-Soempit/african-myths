@@ -5,6 +5,8 @@ import { type HasMany, type BelongsTo } from '@adonisjs/lucid/types/relations'
 import { randomUUID } from 'node:crypto'
 import User from './user.js'
 import Myth from './myth.js'
+import Writing from './writing.js'
+import type { ContentStatus } from '../util/content_status.js'
 
 export default class Culture extends BaseModel {
   @column({ isPrimary: true })
@@ -23,7 +25,7 @@ export default class Culture extends BaseModel {
   declare language: string
 
   @column()
-  declare status: 'draft' | 'published' | 'pending' | 'rejected'
+  declare status: ContentStatus
 
   @column()
   declare ethnicGroupId: string
@@ -45,6 +47,9 @@ export default class Culture extends BaseModel {
 
   @hasMany(() => Myth)
   declare myths: HasMany<typeof Myth>
+
+  @hasMany(() => Writing)
+  declare writings: HasMany<typeof Writing>
 
   @belongsTo(() => EthnicGroup)
   declare ethnicGroup: BelongsTo<typeof EthnicGroup>
