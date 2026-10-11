@@ -37,7 +37,12 @@ export class CultureGeneratorService {
         .first()
       if (existing && !options.force) continue
 
-      await GenerationJob.create({ job: 'culture', inputRef: group.id, status: 'pending' })
+      await GenerationJob.create({
+        job: 'culture',
+        inputRef: group.id,
+        status: 'pending',
+        payload: options.force ? { force: true } : null,
+      })
       enqueued++
     }
     return enqueued
@@ -47,7 +52,8 @@ export class CultureGeneratorService {
     const group = await EthnicGroup.findOrFail(job.inputRef)
 
     const existingCulture = await group.related('cultures').query().first()
-    if (existingCulture) {
+    const force = job.payload?.force === true
+    if (existingCulture && !force) {
       return {
         status: 'skipped',
         entityType: 'culture',
@@ -78,20 +84,30 @@ export class CultureGeneratorService {
       }
     }
 
-    const curator = await PopulationSupport.ensureAiCurator()
-
-    const culture = await Culture.create({
-      name: parsed.name,
-      thumbnail: '',
-      history: parsed.history,
-      language: parsed.language ?? '',
-      status: 'pending',
-      ethnicGroupId: group.id,
-      authorId: curator.id,
-      aiGenerated: true,
-    })
-
-    ctx.log(`Culture '${culture.name}' created for ${group.canonicalName} (pending review)`)
+    let culture: Culture
+    if (existingCulture) {
+      // force: regenerate in place, back to pending so it is re-reviewed
+      existingCulture.name = parsed.name
+      existingCulture.history = parsed.history
+      existingCulture.language = parsed.language ?? ''
+      existingCulture.status = 'pending'
+      existingCulture.aiReviewedAt = null
+      culture = await existingCulture.save()
+      ctx.log(`Culture '${culture.name}' regenerated for ${group.canonicalName} (pending review)`)
+    } else {
+      const curator = await PopulationSupport.ensureAiCurator()
+      culture = await Culture.create({
+        name: parsed.name,
+        thumbnail: '',
+        history: parsed.history,
+        language: parsed.language ?? '',
+        status: 'pending',
+        ethnicGroupId: group.id,
+        authorId: curator.id,
+        aiGenerated: true,
+      })
+      ctx.log(`Culture '${culture.name}' created for ${group.canonicalName} (pending review)`)
+    }
 
     return {
       status: 'done',
