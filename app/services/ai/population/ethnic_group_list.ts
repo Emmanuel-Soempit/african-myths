@@ -23,8 +23,16 @@ export class EthnicGroupListService {
   }): Promise<number> {
     let query = Country.query().orderBy('name', 'asc')
     if (options.country) {
-      const term = options.country
-      query = query.where('iso_alpha_2', term.toUpperCase()).orWhere('name', 'ilike', `%${term}%`)
+      const term = options.country.trim()
+      if (term.length <= 3) {
+        // ISO codes only — a 2-letter code must not substring-match names
+        // (e.g. "NG" would otherwise match Angola, Congo, ...).
+        query = query
+          .where('iso_alpha_2', term.toUpperCase())
+          .orWhere('iso_alpha_3', term.toUpperCase())
+      } else {
+        query = query.where('name', 'ilike', `%${term}%`)
+      }
     }
     const countries = await query.limit(options.limit ?? 54)
 
@@ -119,8 +127,9 @@ export class EthnicGroupListService {
       created.push(`${candidate.canonicalName} (+${added} aliases)`)
     }
 
+    const prefix = ctx.dryRun ? '[dry-run] ' : ''
     ctx.log(
-      `${country.name}: ${created.length} created, ${merged.length} merged, ${skipped.length} skipped`
+      `${prefix}${country.name}: ${created.length} created, ${merged.length} merged, ${skipped.length} skipped`
     )
 
     return {
