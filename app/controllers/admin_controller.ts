@@ -3,6 +3,7 @@
 import { AdminRendererService } from '#services/admin/admin_renderer'
 import { AdminService } from '#services/admin/admin_service'
 import { EthicGroupService } from '#services/ethic_group/ethic_group_service'
+import { UploadService } from '#services/upload/upload_service'
 import { HttpContext } from '@adonisjs/core/http'
 
 export default class AdminController {
@@ -28,7 +29,6 @@ export default class AdminController {
   async inviteUser(ctx: HttpContext) {
     return AdminService.createInvitation(ctx)
   }
-
 
   // Ethinic Grops
   async createEthnicGroup(ctx: HttpContext) {
@@ -87,7 +87,6 @@ export default class AdminController {
     }
   }
 
-
   async renderCultures(ctx: HttpContext) {
     return AdminRendererService.renderCultures(ctx)
   }
@@ -145,7 +144,6 @@ export default class AdminController {
     if (thumbnail !== undefined) culture.thumbnail = thumbnail
     if (status !== undefined) culture.status = status
 
-
     await culture.save()
 
     return ctx.response.redirect().back()
@@ -156,6 +154,7 @@ export default class AdminController {
 
     const { default: Culture } = await import('#models/culture')
     const culture = await Culture.findOrFail(id)
+    await UploadService.destroyByUrl(culture.thumbnail)
     await culture.delete()
 
     return ctx.response.redirect().toPath('/admin/cultures')
@@ -172,7 +171,7 @@ export default class AdminController {
       'status',
       'source',
       'cultureId',
-      "subEthnicGroupId"
+      'subEthnicGroupId',
     ])
 
     const thumbnailFile = ctx.request.file('thumbnailFile', {
@@ -191,17 +190,13 @@ export default class AdminController {
       let thumbnailUrl = ''
       if (thumbnailFile) {
         if (!thumbnailFile.isValid) {
-          ctx.session.flashErrors({ error: 'Invalid thumbnail file. Please upload a valid image (max 5mb).' })
+          ctx.session.flashErrors({
+            error: 'Invalid thumbnail file. Please upload a valid image (max 5mb).',
+          })
           return ctx.response.redirect().back()
         }
-        const { cuid } = await import('@adonisjs/core/helpers')
-        const app = (await import('@adonisjs/core/services/app')).default
-        const fileName = `${cuid()}.${thumbnailFile.extname}`
-        await thumbnailFile.move(app.makePath('public/myths'), {
-          name: fileName,
-          overwrite: true,
-        })
-        thumbnailUrl = `/myths/${fileName}`
+        const { url } = await UploadService.uploadImage(thumbnailFile, 'myths')
+        thumbnailUrl = url
       } else {
         thumbnailUrl = ctx.request.input('thumbnail', '')
       }
@@ -269,17 +264,14 @@ export default class AdminController {
       let thumbnailUrl = myth.thumbnail
       if (thumbnailFile) {
         if (!thumbnailFile.isValid) {
-          ctx.session.flashErrors({ error: 'Invalid thumbnail file. Please upload a valid image (max 5mb).' })
+          ctx.session.flashErrors({
+            error: 'Invalid thumbnail file. Please upload a valid image (max 5mb).',
+          })
           return ctx.response.redirect().back()
         }
-        const { cuid } = await import('@adonisjs/core/helpers')
-        const app = (await import('@adonisjs/core/services/app')).default
-        const fileName = `${cuid()}.${thumbnailFile.extname}`
-        await thumbnailFile.move(app.makePath('public/myths'), {
-          name: fileName,
-          overwrite: true,
-        })
-        thumbnailUrl = `/myths/${fileName}`
+        const { url } = await UploadService.uploadImage(thumbnailFile, 'myths')
+        await UploadService.destroyByUrl(myth.thumbnail)
+        thumbnailUrl = url
       } else {
         const textUrl = ctx.request.input('thumbnail')
         if (textUrl !== undefined) {

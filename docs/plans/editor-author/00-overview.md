@@ -95,7 +95,7 @@ Specs 02–05 are independent of each other once 01 is merged.
 
 ## Out of scope for this whole effort
 - Myth delete, user detail and settings pages, invitation acceptance.
-- Persistent storage for uploads (images still go to `public/` inside the container).
+- ~~Persistent storage for uploads~~ — done: `UploadService` (`app/services/upload/upload_service.ts`) supports Cloudinary via `STORAGE_DRIVER=cloudinary`.
 - Revision history and diff review.
 - Email notifications.
 - Kubernetes and CI changes.

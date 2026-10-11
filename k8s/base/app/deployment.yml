@@ -52,6 +52,18 @@ spec:
               name: african-myths-secrets
               key: typesafe_api_key
               optional: true
+        - name: CLOUDINARY_API_KEY
+          valueFrom:
+            secretKeyRef:
+              name: african-myths-secrets
+              key: cloudinary_api_key
+              optional: true
+        - name: CLOUDINARY_API_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: african-myths-secrets
+              key: cloudinary_api_secret
+              optional: true
       containers:
       - name: app
         image: ghcr.io/emmanuel-soempit/african-myths:latest  # tag set per overlay
