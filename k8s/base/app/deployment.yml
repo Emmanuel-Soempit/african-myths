@@ -1,0 +1,68 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: african-myths-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: african-myths-app
+  template:
+    metadata:
+      labels:
+        app: african-myths-app
+    spec:
+      initContainers:
+      - name: migrate
+        image: ghcr.io/emmanuel-soempit/african-myths:latest  # tag set per overlay
+        command: ["node", "ace", "migration:run", "--force"]
+        envFrom:
+        - configMapRef:
+            name: african-myths-config
+        env: &secretEnv
+        - name: APP_KEY
+          valueFrom:
+            secretKeyRef:
+              name: african-myths-secrets
+              key: app_key
+        - name: DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: african-myths-secrets
+              key: db_password
+        - name: GOOGLE_CLIENT_ID
+          valueFrom:
+            secretKeyRef:
+              name: african-myths-secrets
+              key: google_client_id
+        - name: GOOGLE_CLIENT_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: african-myths-secrets
+              key: google_client_secret
+      containers:
+      - name: app
+        image: ghcr.io/emmanuel-soempit/african-myths:latest  # tag set per overlay
+        ports:
+        - containerPort: 3333
+        envFrom:
+        - configMapRef:
+            name: african-myths-config
+        env: *secretEnv
+        readinessProbe:
+          tcpSocket:
+            port: 3333
+          initialDelaySeconds: 5
+          periodSeconds: 5
+        livenessProbe:
+          tcpSocket:
+            port: 3333
+          initialDelaySeconds: 20
+          periodSeconds: 10
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "250m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"

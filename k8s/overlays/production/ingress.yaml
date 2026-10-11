@@ -1,0 +1,24 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: african-myths-ingress
+  namespace: african-myths-prod
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+spec:
+  ingressClassName: traefik
+  tls:
+  - hosts:
+    - myths.soempit.com
+    secretName: african-myths-prod-tls
+  rules:
+  - host: myths.soempit.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: african-myths-app
+            port:
+              number: 3333

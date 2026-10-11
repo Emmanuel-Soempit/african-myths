@@ -1,0 +1,173 @@
+/* Scoped Editor Theme Styling */
+
+.editor-theme {
+    background-color: #1C1C1C;
+    color: #f0dfd5;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* Scrollbar customizations */
+.editor-scrollbar::-webkit-scrollbar {
+    width: 4px;
+}
+
+.editor-scrollbar::-webkit-scrollbar-track {
+    background: #19120c;
+}
+
+.editor-scrollbar::-webkit-scrollbar-thumb {
+    background: #374151;
+    border-radius: 10px;
+}
+
+/* Material Symbols options */
+.editor-theme .material-symbols-outlined {
+    font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+}
+
+/* Width overrides */
+.editor-theme .w-sidebar {
+    width: 16rem;
+}
+.editor-theme .ml-sidebar {
+    margin-left: 16rem;
+}
+.editor-theme .h-header-height {
+    height: 4rem;
+}
+
+/* Color Tokens mapped to Tailwind utility classes */
+.editor-theme .bg-surface {
+    background-color: #19120c !important;
+}
+.editor-theme .bg-surface-dark {
+    background-color: #242424 !important;
+}
+.editor-theme .bg-surface-container {
+    background-color: #261e18 !important;
+}
+.editor-theme .bg-surface-container-highest {
+    background-color: #3c332c !important;
+}
+.editor-theme .bg-primary-container {
+    background-color: #e88d39 !important;
+}
+.editor-theme .bg-primary-container\/20 {
+    background-color: rgba(232, 141, 57, 0.2) !important;
+}
+.editor-theme .bg-primary-container\/10 {
+    background-color: rgba(232, 141, 57, 0.1) !important;
+}
+.editor-theme .bg-primary\/10 {
+    background-color: rgba(255, 183, 125, 0.1) !important;
+}
+.editor-theme .bg-primary\/20 {
+    background-color: rgba(255, 183, 125, 0.2) !important;
+}
+.editor-theme .bg-secondary\/20 {
+    background-color: rgba(200, 198, 196, 0.2) !important;
+}
+.editor-theme .bg-primary {
+    background-color: #ffb77d !important;
+}
+
+.editor-theme .text-primary {
+    color: #ffb77d !important;
+}
+.editor-theme .text-secondary {
+    color: #c8c6c4 !important;
+}
+.editor-theme .text-error {
+    color: #ffb4ab !important;
+}
+.editor-theme .text-on-primary {
+    color: #4d2600 !important;
+}
+.editor-theme .text-on-surface {
+    color: #f0dfd5 !important;
+}
+.editor-theme .text-outline {
+    color: #a28d7e !important;
+}
+
+.editor-theme .border-border-dark {
+    border-color: #374151 !important;
+}
+.editor-theme .border-primary {
+    border-color: #ffb77d !important;
+}
+.editor-theme .border-primary\/20 {
+    border-color: rgba(255, 183, 125, 0.2) !important;
+}
+.editor-theme .border-primary\/30 {
+    border-color: rgba(255, 183, 125, 0.3) !important;
+}
+
+/* Typography styles mapped from standard Newsreader / Noto Sans config */
+.editor-theme .font-display-lg {
+    font-family: 'Newsreader', Georgia, serif !important;
+    font-size: 36px !important;
+    font-weight: 700 !important;
+    line-height: 1.2 !important;
+    letter-spacing: -0.02em !important;
+}
+
+.editor-theme .font-headline-md {
+    font-family: 'Newsreader', Georgia, serif !important;
+    font-size: 24px !important;
+    font-weight: 700 !important;
+    line-height: 32px !important;
+}
+
+.editor-theme .font-body-md {
+    font-family: 'Noto Sans', sans-serif !important;
+    font-size: 16px !important;
+    font-weight: 400 !important;
+    line-height: 24px !important;
+}
+
+.editor-theme .font-title-md {
+    font-family: 'Noto Sans', sans-serif !important;
+    font-size: 18px !important;
+    font-weight: 700 !important;
+    line-height: 24px !important;
+}
+
+.editor-theme .font-label-md {
+    font-family: 'Noto Sans', sans-serif !important;
+    font-size: 14px !important;
+    font-weight: 500 !important;
+    line-height: 20px !important;
+}
+
+.editor-theme .font-label-sm {
+    font-family: 'Noto Sans', sans-serif !important;
+    font-size: 12px !important;
+    font-weight: 400 !important;
+    line-height: 16px !important;
+}
+
+.editor-theme .text-display-lg {
+    font-size: 36px !important;
+    line-height: 1.2 !important;
+    letter-spacing: -0.02em !important;
+    font-weight: 700 !important;
+}
+
+.editor-theme .text-headline-md {
+    font-size: 24px !important;
+    line-height: 32px !important;
+    font-weight: 700 !important;
+}
+
+.editor-theme .text-label-md {
+    font-size: 14px !important;
+    line-height: 20px !important;
+    font-weight: 500 !important;
+}
+
+.editor-theme .text-label-sm {
+    font-size: 12px !important;
+    line-height: 16px !important;
+    font-weight: 400 !important;
+}

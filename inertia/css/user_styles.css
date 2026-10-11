@@ -1,0 +1,53 @@
+.hero-header-bg {
+  background-image:
+    linear-gradient(rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0.6) 100%),
+    url("https://lh3.googleusercontent.com/aida-public/AB6AXuDDM_EZerUmi99WfeeJ_pewQu3b0EVusqmvWwPlgKp-gAF6REq7IQqoL_xtL2pBK2dVrCnNBclmjhWmS_8NrjA7SrX1JD7nfWTcOhgVHWDJ_i16czGhKWxwnKmroxnuw0XwZM32d8U9UnwjW3xKQCCqdLl9yKjdtb_GctPtzENGvtgmiH-ovg9LcCo_oHTJi510640bMorLqf_rFH8-pY1WXT1emNS0cmhDTEOR7n05va0N1f2jeVPw3lh3n6hYv81DfkOmQiGjihA");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.hero_anim {
+  opacity: 1;
+  animation: fadeInScale 1.2s ease-out forwards;
+}
+
+.material-symbols-outlined {
+  font-variation-settings:
+    'FILL' 0,
+    'wght' 400,
+    'GRAD' 0,
+    'opsz' 24
+}
+
+
+/* Base card styles with initial hidden state */
+.culture-card {
+  opacity: 0;
+  animation: fadeInUp 0.8s ease-out forwards;
+}
+
+/* Staggered delays - add more selectors if you have more than 10 cards */
+.culture-card:nth-child(1) {
+  animation-delay: 0.5s;
+}
+
+.culture-card:nth-child(2) {
+  animation-delay: 0.6s;
+}
+
+.culture-card:nth-child(3) {
+  animation-delay: 0.7s;
+}
+
+.culture-card:nth-child(4) {
+  animation-delay: 0.8s;
+}
+
+.culture-card:nth-child(5) {
+  animation-delay: 0.9s;
+}
+
+.culture-card:nth-child(6) {
+  animation-delay: 1s;
+}

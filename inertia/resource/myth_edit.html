@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Kólà Admin - Edit Myth</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&amp;family=Montserrat:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#F59E0B", // amber-500
+                        "background-dark": "#121212",
+                        "surface-dark": "#1E1E1E",
+                        "border-dark": "#2E2E2E",
+                    },
+                    fontFamily: {
+                        "display": ["Newsreader", "serif"],
+                        "sans": ["Montserrat", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Montserrat', sans-serif;
+        }
+        .prose-dark-custom {
+            --tw-prose-body: #9ca3af;
+            --tw-prose-headings: #f3f4f6;
+            --tw-prose-lead: #9ca3af;
+            --tw-prose-links: #F59E0B;
+            --tw-prose-bold: #f3f4f6;
+            --tw-prose-counters: #9ca3af;
+            --tw-prose-bullets: #4b5563;
+            --tw-prose-hr: #374151;
+            --tw-prose-quotes: #f3f4f6;
+            --tw-prose-quote-borders: #374151;
+            --tw-prose-captions: #9ca3af;
+            --tw-prose-code: #f3f4f6;
+            --tw-prose-pre-code: #e5e7eb;
+            --tw-prose-pre-bg: #1f2937;
+            --tw-prose-th-borders: #374151;
+            --tw-prose-td-borders: #374151;
+        }
+    </style>
+</head>
+<body class="bg-background-dark text-gray-300 font-sans">
+<div class="relative flex min-h-screen w-full flex-row group/design-root overflow-x-hidden">
+<aside class="sticky top-0 h-screen w-64 flex-shrink-0 bg-surface-dark border-r border-border-dark flex flex-col">
+<div class="flex items-center gap-3 px-6 py-5 border-b border-border-dark">
+<div class="size-8 text-primary">
+<svg fill="currentColor" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<g clip-path="url(#clip0_6_319)">
+<path d="M8.57829 8.57829C5.52816 11.6284 3.451 15.5145 2.60947 19.7452C1.76794 23.9758 2.19984 28.361 3.85056 32.3462C5.50128 36.3314 8.29667 39.7376 11.8832 42.134C15.4698 44.5305 19.6865 45.8096 24 45.8096C28.3135 45.8096 32.5302 44.5305 36.1168 42.134C39.7033 39.7375 42.4987 36.3314 44.1494 32.3462C45.8002 28.361 46.2321 23.9758 45.3905 19.7452C44.549 15.5145 42.4718 11.6284 39.4217 8.57829L24 24L8.57829 8.57829Z"></path>
+</g>
+<defs>
+<clipPath id="clip0_6_319">
+<rect fill="white" height="48" width="48"></rect>
+</clipPath>
+</defs>
+</svg>
+</div>
+<h2 class="text-xl font-bold tracking-tight text-white">Kólà Admin</h2>
+</div>
+<nav class="flex-grow p-4 space-y-2">
+<a class="flex items-center gap-3 rounded-lg px-4 py-2 text-gray-400 hover:bg-white/5 hover:text-white transition-colors" href="#"><span class="material-symbols-outlined">dashboard</span>Dashboard</a>
+<a class="flex items-center gap-3 rounded-lg px-4 py-2 text-white bg-primary/20 font-semibold transition-colors" href="#"><span class="material-symbols-outlined">import_contacts</span>Myths</a>
+<a class="flex items-center gap-3 rounded-lg px-4 py-2 text-gray-400 hover:bg-white/5 hover:text-white transition-colors" href="#"><span class="material-symbols-outlined">public</span>Cultures</a>
+<a class="flex items-center gap-3 rounded-lg px-4 py-2 text-gray-400 hover:bg-white/5 hover:text-white transition-colors" href="#"><span class="material-symbols-outlined">label</span>Themes</a>
+<a class="flex items-center gap-3 rounded-lg px-4 py-2 text-gray-400 hover:bg-white/5 hover:text-white transition-colors" href="#"><span class="material-symbols-outlined">group</span>Users</a>
+</nav>
+<div class="p-4 border-t border-border-dark">
+<a class="flex items-center gap-3 rounded-lg px-4 py-2 text-gray-400 hover:bg-white/5 hover:text-white transition-colors" href="#"><span class="material-symbols-outlined">logout</span>Logout</a>
+</div>
+</aside>
+<div class="flex-1">
+<main class="w-full">
+<header class="sticky top-0 z-10 flex items-center justify-between bg-background-dark/80 backdrop-blur-sm border-b border-border-dark px-6 lg:px-8 py-4">
+<div class="flex flex-col">
+<h1 class="text-2xl font-bold text-white tracking-tight">Edit Myth</h1>
+<p class="text-gray-400">Modify the details of an existing myth.</p>
+</div>
+<div class="flex items-center gap-4">
+<button class="px-4 py-2 rounded-lg text-sm font-semibold text-white bg-transparent border border-border-dark hover:bg-surface-dark transition-colors">Cancel</button>
+<button class="px-4 py-2 rounded-lg text-sm font-semibold text-background-dark bg-primary hover:bg-amber-400 transition-colors">Save Changes</button>
+</div>
+</header>
+<div class="p-6 lg:p-8 grid grid-cols-1 lg:grid-cols-3 gap-8">
+<div class="lg:col-span-2 space-y-8">
+<div class="space-y-2">
+<label class="text-sm font-medium text-gray-300" for="myth-title">Title</label>
+<input class="w-full bg-surface-dark border-border-dark rounded-lg px-3 py-2 text-white placeholder-gray-500 focus:ring-2 focus:ring-primary focus:border-primary transition-colors" id="myth-title" type="text" value="How Anansi Became the Keeper of Stories"/>
+</div>
+<div class="space-y-2">
+<label class="text-sm font-medium text-gray-300" for="myth-content">Myth Content</label>
+<div class="bg-surface-dark border border-border-dark rounded-lg overflow-hidden focus-within:ring-2 focus-within:ring-primary focus-within:border-primary">
+<div class="flex items-center gap-2 p-2 border-b border-border-dark">
+<button class="p-2 rounded hover:bg-white/10 text-gray-300"><span class="material-symbols-outlined !text-xl">format_bold</span></button>
+<button class="p-2 rounded hover:bg-white/10 text-gray-300"><span class="material-symbols-outlined !text-xl">format_italic</span></button>
+<button class="p-2 rounded hover:bg-white/10 text-gray-300"><span class="material-symbols-outlined !text-xl">format_underlined</span></button>
+<div class="w-px h-5 bg-border-dark"></div>
+<button class="p-2 rounded hover:bg-white/10 text-gray-300"><span class="material-symbols-outlined !text-xl">format_list_bulleted</span></button>
+<button class="p-2 rounded hover:bg-white/10 text-gray-300"><span class="material-symbols-outlined !text-xl">format_list_numbered</span></button>
+<div class="w-px h-5 bg-border-dark"></div>
+<button class="p-2 rounded hover:bg-white/10 text-gray-300"><span class="material-symbols-outlined !text-xl">format_quote</span></button>
+<button class="p-2 rounded hover:bg-white/10 text-gray-300"><span class="material-symbols-outlined !text-xl">link</span></button>
+</div>
+<div class="prose-dark-custom max-w-none p-4 min-h-[400px]">
+<p>In the beginning, there were no stories in the world. The Sky-God, Nyame, had them all, kept safe in a golden box beside his throne. Anansi the Spider, a clever and cunning trickster, yearned for these stories. He wanted to bring them down to the people of the earth. So, he spun a long, silver thread and climbed up to the sky to speak with Nyame.</p>
+<p>"Nyame," Anansi said with a bow, "I wish to buy your stories."</p>
+</div>
+</div>
+</div>
+<div class="space-y-4">
+<h3 class="text-lg font-semibold text-white">Associated Images</h3>
+<div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+<div class="relative group aspect-square">
+<img alt="An artistic illustration of a golden spiderweb against a dark, cosmic background." class="w-full h-full object-cover rounded-lg" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCL9h38O00ep8N8mL1V_jZYJD91Cb2w1Wlfm_Wz3KZtwjJaPhH42NaJQsZzDX-8on-oQIMjp79T0Q0HlF9vYy3Vfu1rJWYM9_Xp0vLaXQpDjQGd9f8ZwtKDuOVKctJnoXztGcUF2oWA68AkhPFw5M389TAqDdxKY2qRJURFzI0BCiPimEnj2_GLVvUeSP_agnUOhYRr2-3G8q62ORqN37dYtiqEiAXsFlEqNudYkYDsUi1u9dDdcr12ZRHtaHO5QIwMVgmUFP6tZWM"/>
+<div class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center rounded-lg">
+<button class="p-2 rounded-full bg-red-600/80 text-white hover:bg-red-500"><span class="material-symbols-outlined">delete</span></button>
+</div>
+</div>
+<div class="relative group aspect-square">
+<img alt="A powerful warrior queen standing before a desert city." class="w-full h-full object-cover rounded-lg" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBY92RK4GdGwjHAdZEA6Knn7CFLv2Y7XkT0uOfkqQ7qAheQAvAIrcqRkHs8rWU81_cRau3Mtr6TbvcnELJ7fQ_ttHFC8J2Pr6kQ6BHTir98xYAP_FAooytEbUfz5M4bJi849T8xRkagI94LMo7kQBC3-WY5xwYPEBTqNB0sfATB1ioZMx98Qb6_P6J4caXfdmB1XiVDdPtAkOdas6Izdb6WPyKXREeoKGj6N2VSUVL9Cj0wowhXuWDusnN3QW5LQA3BaXQZ9Xi8Me0"/>
+<div class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center rounded-lg">
+<button class="p-2 rounded-full bg-red-600/80 text-white hover:bg-red-500"><span class="material-symbols-outlined">delete</span></button>
+</div>
+</div>
+<div class="flex items-center justify-center aspect-square border-2 border-dashed border-border-dark rounded-lg text-gray-500 hover:bg-surface-dark hover:border-primary hover:text-primary cursor-pointer transition-colors">
+<div class="text-center">
+<span class="material-symbols-outlined text-4xl">add_photo_alternate</span>
+<p class="text-xs mt-1">Add Image</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="lg:col-span-1 space-y-8">
+<div class="space-y-2">
+<label class="text-sm font-medium text-gray-300" for="myth-status">Status</label>
+<select class="w-full bg-surface-dark border-border-dark rounded-lg px-3 py-2 text-white focus:ring-2 focus:ring-primary focus:border-primary transition-colors" id="myth-status">
+<option value="draft">Draft</option>
+<option selected="" value="published">Published</option>
+<option value="pending">Pending Review</option>
+</select>
+</div>
+<div class="space-y-2">
+<label class="text-sm font-medium text-gray-300" for="myth-culture">Culture</label>
+<select class="w-full bg-surface-dark border-border-dark rounded-lg px-3 py-2 text-white focus:ring-2 focus:ring-primary focus:border-primary transition-colors" id="myth-culture">
+<option selected="" value="akan">Akan</option>
+<option value="yoruba">Yoruba</option>
+<option value="igbo">Igbo</option>
+<option value="zulu">Zulu</option>
+</select>
+</div>
+<div class="space-y-2">
+<label class="text-sm font-medium text-gray-300" for="myth-author">Author / Origin</label>
+<input class="w-full bg-surface-dark border-border-dark rounded-lg px-3 py-2 text-white placeholder-gray-500 focus:ring-2 focus:ring-primary focus:border-primary transition-colors" id="myth-author" type="text" value="Akan Folktale"/>
+</div>
+<div class="space-y-2">
+<label class="text-sm font-medium text-gray-300" for="myth-reading-time">Estimated Reading Time (minutes)</label>
+<input class="w-full bg-surface-dark border-border-dark rounded-lg px-3 py-2 text-white placeholder-gray-500 focus:ring-2 focus:ring-primary focus:border-primary transition-colors" id="myth-reading-time" type="number" value="7"/>
+</div>
+<div class="space-y-2">
+<label class="text-sm font-medium text-gray-300" for="myth-themes">Themes</label>
+<div class="p-2 bg-surface-dark border border-border-dark rounded-lg flex flex-wrap gap-2">
+<div class="flex items-center gap-1 bg-primary/20 text-primary text-sm font-medium px-2 py-1 rounded">
+<span>Trickery</span>
+<button class="text-primary/70 hover:text-primary"><span class="material-symbols-outlined !text-base">close</span></button>
+</div>
+<div class="flex items-center gap-1 bg-primary/20 text-primary text-sm font-medium px-2 py-1 rounded">
+<span>Wisdom</span>
+<button class="text-primary/70 hover:text-primary"><span class="material-symbols-outlined !text-base">close</span></button>
+</div>
+<div class="flex items-center gap-1 bg-primary/20 text-primary text-sm font-medium px-2 py-1 rounded">
+<span>Creation</span>
+<button class="text-primary/70 hover:text-primary"><span class="material-symbols-outlined !text-base">close</span></button>
+</div>
+<input class="flex-1 bg-transparent text-white placeholder-gray-500 focus:ring-0 border-0 p-1 min-w-[100px]" id="myth-themes" placeholder="Add a theme..." type="text"/>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+</div>
+
+</body></html>

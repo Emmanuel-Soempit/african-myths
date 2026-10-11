@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+  <title>Kólà - How Anansi Became the Keeper of Stories</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link href="https://fonts.googleapis.com" rel="preconnect" />
+  <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&amp;family=Montserrat:wght@400;500;700&amp;display=swap"
+    rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "primary": "#19e619",
+            "background-light": "#f6f8f6",
+            "background-dark": "#112111",
+          },
+          fontFamily: {
+            "display": ["Newsreader", "serif"],
+            "sans": ["Montserrat", "sans-serif"]
+          },
+          borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
+        },
+      },
+    }
+  </script>
+  <style>
+    body {
+      font-family: 'Newsreader', serif;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    .font-sans {
+      font-family: 'Montserrat', sans-serif;
+    }
+  </style>
+</head>
+
+<body class="bg-background-light dark:bg-background-dark font-display text-[#2D2D2D] dark:text-gray-300">
+  <div class="relative flex min-h-screen w-full flex-col group/design-root overflow-x-hidden">
+    <!-- TopNavBar -->
+    <header class="sticky top-0 z-10 w-full bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-sm">
+      <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+        <div
+          class="flex items-center justify-between whitespace-nowrap border-b border-solid border-gray-200 dark:border-gray-800 py-4">
+          <a class="flex items-center gap-3 text-[#2D2D2D] dark:text-white" href="#">
+            <div class="size-6 text-[#D4A373]">
+              <svg fill="currentColor" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+                <g clip-path="url(#clip0_6_319)">
+                  <path
+                    d="M8.57829 8.57829C5.52816 11.6284 3.451 15.5145 2.60947 19.7452C1.76794 23.9758 2.19984 28.361 3.85056 32.3462C5.50128 36.3314 8.29667 39.7376 11.8832 42.134C15.4698 44.5305 19.6865 45.8096 24 45.8096C28.3135 45.8096 32.5302 44.5305 36.1168 42.134C39.7033 39.7375 42.4987 36.3314 44.1494 32.3462C45.8002 28.361 46.2321 23.9758 45.3905 19.7452C44.549 15.5145 42.4718 11.6284 39.4217 8.57829L24 24L8.57829 8.57829Z">
+                  </path>
+                </g>
+                <defs>
+                  <clippath id="clip0_6_319">
+                    <rect fill="white" height="48" width="48"></rect>
+                  </clippath>
+                </defs>
+              </svg>
+            </div>
+            <h2 class="font-sans text-xl font-bold tracking-tight">Kólà</h2>
+          </a>
+          <div class="flex items-center gap-8">
+            <a class="font-sans text-[#2D2D2D] dark:text-white text-sm font-medium hover:text-[#D4A373] dark:hover:text-[#D4A373] transition-colors"
+              href="#">Explore Myths</a>
+          </div>
+        </div>
+      </div>
+    </header>
+    <main class="container mx-auto flex h-full grow flex-col justify-center px-4 sm:px-6 lg:px-8 py-10 md:py-16">
+      <div class="mx-auto flex max-w-3xl flex-col flex-1">
+        <!-- Breadcrumbs -->
+        <nav class="flex flex-wrap gap-2 mb-8 font-sans">
+          <a class="text-gray-500 dark:text-gray-400 hover:text-[#D4A373] dark:hover:text-[#D4A373] text-sm font-medium transition-colors"
+            href="#">Home</a>
+          <span class="text-gray-400 dark:text-gray-500 text-sm font-medium">/</span>
+          <a class="text-gray-500 dark:text-gray-400 hover:text-[#D4A373] dark:hover:text-[#D4A373] text-sm font-medium transition-colors"
+            href="#">Akan</a>
+          <span class="text-gray-400 dark:text-gray-500 text-sm font-medium">/</span>
+          <span class="text-[#2D2D2D] dark:text-white text-sm font-medium">How Anansi Became the Keeper of
+            Stories</span>
+        </nav>
+        <!-- PageHeading -->
+        <div class="flex flex-col gap-4 mb-8">
+          <a class="font-sans inline-block w-fit rounded-full bg-[#BC6C25]/20 px-4 py-1 text-sm font-medium text-[#BC6C25] hover:bg-[#BC6C25]/30 transition-colors"
+            href="#">Akan</a>
+          <h1 class="font-sans text-[#2D2D2D] dark:text-white text-4xl md:text-5xl font-bold tracking-tighter">How
+            Anansi Became the Keeper of Stories</h1>
+        </div>
+        <!-- Chips/Metadata -->
+        <div
+          class="flex flex-wrap items-center gap-x-4 gap-y-2 border-y border-gray-200 dark:border-gray-800 py-4 mb-12">
+          <div class="flex items-center gap-2 text-sm font-medium text-gray-600 dark:text-gray-400 font-sans">
+            <span class="material-symbols-outlined text-base">schedule</span>
+            <span>7 min read</span>
+          </div>
+          <div class="hidden sm:block h-4 w-px bg-gray-200 dark:bg-gray-700"></div>
+          <div class="flex flex-wrap items-center gap-2">
+            <div class="flex items-center justify-center rounded-lg bg-[#3A5A40]/10 dark:bg-[#3A5A40]/20 px-3 py-1">
+              <p class="font-sans text-[#3A5A40] dark:text-green-200 text-xs font-medium">Trickery</p>
+            </div>
+            <div class="flex items-center justify-center rounded-lg bg-[#3A5A40]/10 dark:bg-[#3A5A40]/20 px-3 py-1">
+              <p class="font-sans text-[#3A5A40] dark:text-green-200 text-xs font-medium">Wisdom</p>
+            </div>
+            <div class="flex items-center justify-center rounded-lg bg-[#3A5A40]/10 dark:bg-[#3A5A40]/20 px-3 py-1">
+              <p class="font-sans text-[#3A5A40] dark:text-green-200 text-xs font-medium">Creation</p>
+            </div>
+          </div>
+        </div>
+        <!-- BodyText -->
+        <article
+          class="prose prose-lg lg:prose-xl dark:prose-invert prose-headings:font-sans prose-p:text-lg prose-p:leading-relaxed prose-a:text-[#D4A373] prose-blockquote:border-[#D4A373] prose-blockquote:text-gray-600 dark:prose-blockquote:text-gray-400 max-w-none">
+          <p>
+            In the beginning, there were no stories in the world. The Sky-God, Nyame, had them all, kept safe in a
+            golden box beside his throne. Anansi the Spider, a clever and cunning trickster, yearned for these stories.
+            He wanted to bring them down to the people of the earth. So, he spun a long, silver thread and climbed up to
+            the sky to speak with Nyame.
+          </p>
+          <p>
+            "Nyame," Anansi said with a bow, "I wish to buy your stories."
+          </p>
+          <p>
+            The Sky-God laughed. "Many have tried and failed, little spider. The price is high. You must bring me three
+            things: Mmoboro, the hornets who sting like fire; Onini, the great python who can swallow a man whole; and
+            Osebo, the leopard with teeth like daggers."
+          </p>
+          <figure class="my-12">
+            <img class="w-full rounded-lg object-cover"
+              data-alt="An artistic illustration of a golden spiderweb against a dark, cosmic background."
+              src="https://lh3.googleusercontent.com/aida-public/AB6AXuCL9h38O00ep8N8mL1V_jZYJD91Cb2w1Wlfm_Wz3KZtwjJaPhH42NaJQsZzDX-8on-oQIMjp79T0Q0HlF9vYy3Vfu1rJWYM9_Xp0vLaXQpDjQGd9f8ZwtKDuOVKctJnoXztGcUF2oWA68AkhPFw5M389TAqDdxKY2qRJURFzI0BCiPimEnj2_GLVvUeSP_agnUOhYRr2-3G8q62ORqN37dYtiqEiAXsFlEqNudYkYDsUi1u9dDdcr12ZRHtaHO5QIwMVgmUFP6tZWM" />
+            <figcaption class="text-center text-sm text-gray-500 dark:text-gray-400 mt-2">Anansi contemplating the
+              Sky-God's impossible price.</figcaption>
+          </figure>
+          <p>
+            Anansi did not despair. He returned to Earth and first went to the hornets' nest. "They say you are fools,"
+            he taunted, holding a large, empty calabash. "They say you cannot fly into this small gourd." Angered, the
+            hornets swarmed inside to prove him wrong, and Anansi quickly sealed the opening.
+          </p>
+          <blockquote>
+            <p>With cunning and wit, Anansi showed that strength is not always measured in size, but in the sharpness of
+              the mind.</p>
+          </blockquote>
+          <p>
+            Next, he found Onini the python. "My wife and I disagree," Anansi said. "She says you are not as long as
+            this palm branch." The proud python stretched himself out against the branch, and Anansi swiftly tied him to
+            it with strong creepers.
+          </p>
+          <p>
+            Finally, for Osebo the leopard, Anansi dug a deep pit. When the leopard fell in, Anansi offered to help him
+            out using his web. But as he pulled the leopard up, he tied him to a tree. With all three captives, Anansi
+            returned to the Sky-God. Nyame was amazed. He declared, "Anansi, you have paid the price. From this day, all
+            stories belong to you. They shall be called 'Spider Stories'." And that is how Anansi became the keeper of
+            stories, sharing them with all the people of the world.
+          </p>
+          <div class="mt-12 text-sm text-gray-500 dark:text-gray-400 italic">
+            <p>Source: A traditional Akan folktale, retold for Kólà.</p>
+          </div>
+          <div class="flex items-center gap-4 mt-12 border-t border-gray-200 dark:border-gray-800 pt-8">
+            <p class="font-sans text-sm font-medium text-gray-700 dark:text-gray-300">Share this story:</p>
+            <div class="flex gap-2">
+              <a class="flex h-8 w-8 items-center justify-center rounded-full bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
+                href="#">
+                <svg class="bi bi-twitter-x" fill="currentColor" height="16" viewbox="0 0 16 16" width="16"
+                  xmlns="http://www.w3.org/2000/svg">
+                  <path
+                    d="M12.6.75h2.454l-5.36 6.142L16 15.25h-4.937l-3.867-5.07-4.425 5.07H.316l5.733-6.57L0 .75h5.063l3.495 4.633L12.601.75Zm-1.6 13.023h1.844L4.12 2.16h-1.98z">
+                  </path>
+                </svg>
+              </a>
+              <a class="flex h-8 w-8 items-center justify-center rounded-full bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
+                href="#">
+                <svg class="bi bi-facebook" fill="currentColor" height="16" viewbox="0 0 16 16" width="16"
+                  xmlns="http://www.w3.org/2000/svg">
+                  <path
+                    d="M16 8.049c0-4.446-3.582-8.05-8-8.05C3.58 0 0 3.582 0 8.05c0 4.017 2.926 7.347 6.75 7.951v-5.625h-2.03V8.05H6.75V6.275c0-2.017 1.195-3.131 3.022-3.131.876 0 1.791.157 1.791.157v1.98h-1.009c-.993 0-1.303.621-1.303 1.258v1.51h2.218l-.354 2.326H9.25V16c3.824-.604 6.75-3.934 6.75-7.951">
+                  </path>
+                </svg>
+              </a>
+              <a class="flex h-8 w-8 items-center justify-center rounded-full bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
+                href="#">
+                <span class="material-symbols-outlined text-base">link</span>
+              </a>
+            </div>
+          </div>
+        </article>
+        <!-- Related Content Section -->
+        <section class="mt-20 pt-12 border-t border-gray-200 dark:border-gray-800">
+          <h2 class="font-sans text-3xl font-bold tracking-tight text-[#2D2D2D] dark:text-white mb-8">You Might Also
+            Like</h2>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <!-- Story Card 1 -->
+            <a class="group flex flex-col gap-4" href="#">
+              <div class="overflow-hidden rounded-lg">
+                <img class="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
+                  data-alt="A powerful warrior queen standing before a desert city."
+                  src="https://lh3.googleusercontent.com/aida-public/AB6AXuBY92RK4GdGwjHAdZEA6Knn7CFLv2Y7XkT0uOfkqQ7qAheQAvAIrcqRkHs8rWU81_cRau3Mtr6TbvcnELJ7fQ_ttHFC8J2Pr6kQ6BHTir98xYAP_FAooytEbUfz5M4bJi849T8xRkagI94LMo7kQBC3-WY5xwYPEBTqNB0sfATB1ioZMx98Qb6_P6J4caXfdmB1XiVDdPtAkOdas6Izdb6WPyKXREeoKGj6N2VSUVL9Cj0wowhXuWDusnN3QW5LQA3BaXQZ9Xi8Me0" />
+              </div>
+              <div class="flex flex-col gap-1">
+                <p class="font-sans text-sm font-medium text-[#D4A373]">Yoruba</p>
+                <h3
+                  class="font-sans text-lg font-bold text-[#2D2D2D] dark:text-white group-hover:text-[#D4A373] dark:group-hover:text-[#D4A373] transition-colors">
+                  The Story of Moremi</h3>
+                <p class="text-sm text-gray-600 dark:text-gray-400 line-clamp-2">A queen's sacrifice to save her people
+                  from invaders.</p>
+              </div>
+            </a>
+            <!-- Story Card 2 -->
+            <a class="group flex flex-col gap-4" href="#">
+              <div class="overflow-hidden rounded-lg">
+                <img class="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
+                  data-alt="An abstract depiction of lightning striking a mighty baobab tree."
+                  src="https://lh3.googleusercontent.com/aida-public/AB6AXuB6bvEfDNn3X_s7PUSuV0KLWPnbqac2ttvKuF5zckgplYgmEhXe1DEH4taSD5FOuAjBghdYg8jR1DM89MjwPifqx5wdXiNsKL9hmFlKTz3dtvp7_W-tlPf_NBG0DUsi2SUJg7PHPyWu2bHqv_Jz-AjQTd052IMOluRt1GYzAgvPRx5dWyzn7XJTHk69XOfU9i9X9TpMe0vJAe9Jf3XAqWz_bKRQJ2mqDdaHPJMrkcpFgKEyrmr3U59KKDcj-oVNUcbtK6hBv2v2Jqo" />
+              </div>
+              <div class="flex flex-col gap-1">
+                <p class="font-sans text-sm font-medium text-[#D4A373]">Yoruba</p>
+                <h3
+                  class="font-sans text-lg font-bold text-[#2D2D2D] dark:text-white group-hover:text-[#D4A373] dark:group-hover:text-[#D4A373] transition-colors">
+                  Shango, God of Thunder</h3>
+                <p class="text-sm text-gray-600 dark:text-gray-400 line-clamp-2">The tale of the powerful and fiery
+                  Orisha of thunder and lightning.</p>
+              </div>
+            </a>
+            <!-- Story Card 3 -->
+            <a class="group flex flex-col gap-4" href="#">
+              <div class="overflow-hidden rounded-lg">
+                <img class="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
+                  data-alt="A tortoise walking slowly but surely across a vast, sunlit savanna."
+                  src="https://lh3.googleusercontent.com/aida-public/AB6AXuBOnziuINvxPoF0HyX6X52528LPxwb83naaiLrEDvOyLmvG8yQ1ZVbQ84ynKYOGT-hjECA2qEyBmUBAQbUTTJ7IwWd9QoftBJHNmco9CL73IOTCzUrRk7pH0VbAla6N1jL4S4s8PLQc93BXs1ltAmTQtzDIaywmi4gwZiKHaLfvTgnmZxH_nWRbJu3fXVCqV4CiI5l6YkQawxQp20jksVZHPRoM8QPuqpeiSxPcMyX-cXQ5tjltgXmU7_MVa7XeRpnZZoOjZe8IMyY" />
+              </div>
+              <div class="flex flex-col gap-1">
+                <p class="font-sans text-sm font-medium text-[#D4A373]">Igbo</p>
+                <h3
+                  class="font-sans text-lg font-bold text-[#2D2D2D] dark:text-white group-hover:text-[#D4A373] dark:group-hover:text-[#D4A373] transition-colors">
+                  The Tortoise and the Birds</h3>
+                <p class="text-sm text-gray-600 dark:text-gray-400 line-clamp-2">A cautionary tale about greed and the
+                  cunning tortoise.</p>
+              </div>
+            </a>
+          </div>
+        </section>
+      </div>
+    </main>
+  </div>
+</body>
+
+</html>

@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: african-myths-app
+spec:
+  selector:
+    app: african-myths-app
+  ports:
+  - port: 3333
+    targetPort: 3333
+  type: ClusterIP

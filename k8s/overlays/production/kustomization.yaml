@@ -1,0 +1,29 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: african-myths-prod
+
+# Keep the app at 1 replica: the migration initContainer would race with >1.
+replicas:
+- name: african-myths-app
+  count: 1
+- name: african-myths-postgres
+  count: 1
+
+images:
+- name: ghcr.io/emmanuel-soempit/african-myths
+  newTag: latest
+
+resources:
+- ../../base
+- secrets/configmap.yaml
+- ingress.yaml
+
+patches:
+- target:
+    kind: Deployment
+    name: african-myths-postgres
+  patch: |-
+    - op: replace
+      path: /spec/template/spec/volumes/0/hostPath/path
+      value: /var/lib/african-myths/prod/postgres

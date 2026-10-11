@@ -1,0 +1,7 @@
+# Ignore plaintext secret files — NEVER commit these.
+# secrets.yaml is the source of truth for african-myths-secrets, applied manually on the cluster.
+overlays/*/secrets/secrets.yaml
+
+# Non-sensitive configmaps and placeholder examples are safe to commit
+!overlays/*/secrets/configmap.yaml
+!overlays/*/secrets/secrets.example.yaml

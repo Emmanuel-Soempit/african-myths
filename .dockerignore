@@ -1,0 +1,13 @@
+node_modules
+build
+tmp
+public/assets
+.env
+.env.*
+!.env.example
+k8s
+.github
+.git
+.DS_Store
+.idea
+.vscode

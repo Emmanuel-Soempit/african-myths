@@ -1,0 +1,317 @@
+@import '../styles/_variables.scss';
+@import '../styles/_keyframe-animations.scss';
+
+@layer base {
+  :root {
+
+    --color-primary: #19e619;
+
+    /* Backgrounds */
+    --color-background-light: #f6f8f6;
+    --color-background-dark: #111811;
+
+    /* Surfaces */
+    --color-surface-dark: #293829;
+
+    /* Text (dark theme) */
+    --color-text-primary-dark: #ffffff;
+    --color-text-secondary-dark: #9db89d;
+
+    /* Greens (mapped to design tokens above) */
+    --color-green-light: #19e619;
+    /* same as primary */
+    --color-green-gray: #293829;
+    /* same as surface-dark */
+    --color-green-dark: #111811;
+    /* same as background-dark */
+
+    /* Browns (kept from your existing palette) */
+    --color-brown-light: #a09982;
+    --color-brown-gray: #817457;
+    --color-brown-light: #a09982;
+    --color-brown-gray: #817457;
+    --color-brown-dark: #402f17;
+
+    /* Sign Up Page Colors */
+    --color-orange-primary: #E5734A;
+    --color-brown-secondary: #3E2723;
+    --color-beige-light: #FDF8F2;
+    --color-beige-light: #FDF8F2;
+    --color-brown-black: #1C1613;
+
+    /* Roles Selection Colors */
+    --color-roles-primary: #d97706;
+    --color-roles-bg-light: #fef3c7;
+    --color-roles-bg-dark: #291d0e;
+    --color-roles-card-light: #fffbeb;
+    --color-roles-card-dark: #44341e;
+    --color-roles-text-light: #44403c;
+    --color-roles-text-dark: #f5f5f4;
+    --color-roles-muted-light: #78716c;
+    --color-roles-muted-dark: #a8a29e;
+
+    /* Admin Dashboard Colors */
+    --color-admin-primary: #E88D39;
+    --color-admin-background-light: #F9F7F5;
+    --color-admin-background-dark: #1C1C1C;
+    --color-admin-surface-light: #FFFFFF;
+    --color-admin-surface-dark: #242424;
+    --color-admin-border-light: #E5E7EB;
+    --color-admin-border-dark: #374151;
+    --color-admin-text-primary-light: #332E2E;
+    --color-admin-text-primary-dark: #F9F7F5;
+    --color-admin-text-secondary-light: #6B7280;
+    --color-admin-text-secondary-dark: #9CA3AF;
+
+
+    --text-primary-dark: #ffffff;
+    --text-secondary-dark: #9db89d;
+
+    --space-page-x: 1rem;
+    /* base px-4  */
+    --space-page-x-sm: 2.5rem;
+    /* sm:px-10   */
+    --space-page-x-lg: 5rem;
+    /* lg:px-20   */
+
+    --space-page-y: 1.25rem;
+    /* py-5       */
+    --space-header-y: 0.75rem;
+    /* py-3       */
+
+    --space-section-gap-sm: 3rem;
+    /* gap-12 */
+    --space-section-gap-md: 4rem;
+    /* gap-16 */
+    --space-section-gap-lg: 5rem;
+    /* gap-20 */
+
+    --space-card-gap: 1.5rem;
+    /* gap-6      */
+    --space-card-gap-lg: 2rem;
+    /* gap-8      */
+
+    --space-hero-top: 2rem;
+    /* mt-8       */
+    --space-hero-padding: 1rem;
+    /* p-4        */
+
+    /* Heights */
+    --hero-min-height: 480px;
+    /* min-h-[480px] */
+    --input-height-sm: 2.5rem;
+    /* h-10 */
+    --input-height-md: 3rem;
+    /* h-12 */
+    --input-height-lg: 3.5rem;
+    /* h-14 */
+
+    /* Border radius */
+    --radius-md: 0.5rem;
+    /* rounded-lg */
+    --radius-lg: 0.75rem;
+    /* rounded-xl */
+    --radius-full: 9999px;
+    /* rounded-full */
+
+    /* Typography sizes */
+    --text-hero-sm: 2.25rem;
+    /* text-4xl */
+    --text-hero-lg: 3.75rem;
+    /* text-6xl */
+    --text-section-title: 1.375rem;
+    /* 22px */
+    --text-title: 1.25rem;
+    /* text-xl */
+    --text-body: 1rem;
+    /* text-base */
+    --text-body-lg: 1.125rem;
+    /* text-lg */
+    --text-body-sm: 0.875rem;
+    /* text-sm */
+    --text-caption: 0.75rem;
+    /* text-xs */
+
+    /* Typography weights */
+    --font-weight-normal: 400;
+    --font-weight-medium: 500;
+    --font-weight-bold: 700;
+    --font-weight-black: 900;
+
+
+  }
+}
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  height: 100%;
+  width: 100%;
+  background-color: var(--color-green-dark);
+}
+
+/* Thin transparent scrollbar */
+.thin-scrollbar {
+  scrollbar-width: thin;
+  /* Firefox */
+}
+
+.thin-scrollbar::-webkit-scrollbar {
+  width: 6px;
+  /* Chrome, Safari, Edge */
+}
+
+.thin-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+  /* Completely transparent track */
+}
+
+.thin-scrollbar::-webkit-scrollbar-thumb {
+  background-color: rgba(156, 163, 175, 0.4);
+  /* Semi-transparent thumb */
+  border-radius: 3px;
+  /* Rounded corners */
+}
+
+.thin-scrollbar::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(156, 163, 175, 0.6);
+  /* Darker on hover */
+}
+
+.thin-scrollbar::-webkit-scrollbar-thumb:active {
+  background-color: rgba(156, 163, 175, 0.8);
+  /* Darkest when active */
+}
+
+.text-primary-dark {
+  color: var(--color-text-primary-dark);
+}
+
+.text-secondary-dark {
+  color: var(--color-text-secondary-dark);
+}
+
+.nav-link-primary {
+  color: var(--color-text-primary-dark);
+  font-size: var(--text-body-sm);
+  font-weight: var(--font-weight-medium);
+  line-height: var(--text-body-sm);
+  padding: 4px 6px;
+  border-radius: 4px;
+  position: relative;
+  transition: all 300ms ease;
+  transform-style: preserve-3d;
+}
+
+.nav-link-primary::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, var(--color-brown-light), var(--color-brown-dark));
+  transform: translateZ(-1px);
+  opacity: 0;
+  border-radius: 4px;
+  transition: all 300ms ease;
+
+}
+
+.nav-link-primary:hover {
+  transform: translateY(-2px) translateZ(10px);
+  color: white;
+}
+
+.nav-link-primary:hover::before {
+  opacity: 1;
+}
+
+.nav-link-anim {
+  opacity: 1;
+  animation: fadeInScale 0.8s ease-out forwards;
+}
+
+
+
+/* Keyframes for the animation */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInScale {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* ----------------------------------------------------
+   Scoped Overrides for Inline SimpleEditor
+---------------------------------------------------- */
+.culture-inline-editor .simple-editor-wrapper {
+  width: 100% !important;
+  max-width: 100% !important;
+  height: auto !important;
+  min-height: 100vh;
+  overflow: visible !important;
+}
+
+.culture-inline-editor .simple-editor-content {
+  max-width: 100% !important;
+  width: 100% !important;
+  height: auto !important;
+  margin: 0 !important;
+}
+
+.culture-inline-editor .simple-editor-content .tiptap.ProseMirror.simple-editor {
+  flex: 1 !important;
+  padding: 1.5rem 1.5rem 4rem !important;
+  min-height: 280px !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+/* ----------------------------------------------------
+   Scoped Overrides for EditorSection SimpleEditor
+   ---------------------------------------------------- */
+.admin-editor-section .simple-editor-wrapper {
+  width: 100% !important;
+  max-width: 100% !important;
+  height: auto !important;
+  min-height: 400px !important;
+  overflow: visible !important;
+}
+
+.admin-editor-section .simple-editor-content {
+  max-width: 100% !important;
+  width: 100% !important;
+  height: auto !important;
+  margin: 0 !important;
+}
+
+.admin-editor-section .simple-editor-content .tiptap.ProseMirror.simple-editor {
+  flex: 1 !important;
+  padding: 1.5rem 1.5rem 4rem !important;
+  min-height: 320px !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+.animate-spin {
+  animation: spin 1s linear infinite;
+}

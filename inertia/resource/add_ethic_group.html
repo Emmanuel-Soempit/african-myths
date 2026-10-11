@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Kólà Admin - User Management</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&amp;family=Noto+Sans:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              primary: "#E88D39",
+              "background-light": "#F9F7F5",
+              "background-dark": "#1C1C1C",
+              "surface-light": "#FFFFFF",
+              "surface-dark": "#242424",
+              "border-light": "#E5E7EB",
+              "border-dark": "#374151",
+              "text-primary-light": "#332E2E",
+              "text-primary-dark": "#F9F7F5",
+              "text-secondary-light": "#6B7280",
+              "text-secondary-dark": "#9CA3AF",
+            },
+            fontFamily: {
+              display: ["Newsreader", "serif"],
+              sans: ["Noto Sans", "sans-serif"],
+            },
+            borderRadius: {
+              DEFAULT: "0.25rem",
+              lg: "0.5rem",
+              xl: "0.75rem",
+              full: "9999px",
+            },
+          },
+        },
+      };
+    </script>
+<style>
+      body {
+        font-family: "Noto Sans", sans-serif;
+      }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark">
+<div class="relative flex h-auto min-h-screen w-full flex-col">
+<div class="flex h-full min-h-screen">
+<aside class="flex w-64 flex-col border-r border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark p-4">
+<div class="flex items-center gap-3 px-3 py-2">
+<div class="size-8 text-primary">
+<svg fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<g clip-path="url(#clip0_6_319)">
+<path d="M8.57829 8.57829C5.52816 11.6284 3.451 15.5145 2.60947 19.7452C1.76794 23.9758 2.19984 28.361 3.85056 32.3462C5.50128 36.3314 8.29667 39.7376 11.8832 42.134C15.4698 44.5305 19.6865 45.8096 24 45.8096C28.3135 45.8096 32.5302 44.5305 36.1168 42.134C39.7033 39.7375 42.4987 36.3314 44.1494 32.3462C45.8002 28.361 46.2321 23.9758 45.3905 19.7452C44.549 15.5145 42.4718 11.6284 39.4217 8.57829L24 24L8.57829 8.57829Z" fill="currentColor"></path>
+</g>
+<defs>
+<clipPath id="clip0_6_319">
+<rect fill="white" height="48" width="48"></rect>
+</clipPath>
+</defs>
+</svg>
+</div>
+<h1 class="font-display text-2xl font-bold text-text-primary-light dark:text-text-primary-dark">Kólà</h1>
+</div>
+<div class="flex h-full flex-col justify-between pt-8">
+<div class="flex flex-col gap-2">
+<a class="flex items-center gap-3 rounded-lg px-3 py-2 text-text-secondary-light dark:text-text-secondary-dark hover:bg-gray-100 dark:hover:bg-white/10" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<p class="text-sm font-medium">Dashboard</p>
+</a>
+<a class="flex items-center gap-3 rounded-lg px-3 py-2 text-text-secondary-light dark:text-text-secondary-dark hover:bg-gray-100 dark:hover:bg-white/10" href="#">
+<span class="material-symbols-outlined">public</span>
+<p class="text-sm font-medium">Cultures</p>
+</a>
+<a class="flex items-center gap-3 rounded-lg px-3 py-2 text-text-secondary-light dark:text-text-secondary-dark hover:bg-gray-100 dark:hover:bg-white/10" href="#">
+<span class="material-symbols-outlined">auto_stories</span>
+<p class="text-sm font-medium">Myths</p>
+</a>
+<a class="flex items-center gap-3 rounded-lg bg-primary/20 px-3 py-2 text-primary" href="#">
+<span class="material-symbols-outlined">group</span>
+<p class="text-sm font-bold">Users</p>
+</a>
+<a class="flex items-center gap-3 rounded-lg px-3 py-2 text-text-secondary-light dark:text-text-secondary-dark hover:bg-gray-100 dark:hover:bg-white/10" href="#">
+<span class="material-symbols-outlined">settings</span>
+<p class="text-sm font-medium">Settings</p>
+</a>
+</div>
+<div class="flex flex-col gap-1">
+<a class="flex items-center gap-3 rounded-lg px-3 py-2 text-text-secondary-light dark:text-text-secondary-dark hover:bg-gray-100 dark:hover:bg-white/10" href="#">
+<span class="material-symbols-outlined">logout</span>
+<p class="text-sm font-medium">Logout</p>
+</a>
+</div>
+</div>
+</aside>
+<main class="flex-1 overflow-y-auto">
+<header class="sticky top-0 z-10 flex items-center justify-between whitespace-nowrap border-b border-border-light dark:border-border-dark bg-background-light/80 dark:bg-background-dark/80 px-10 py-3 backdrop-blur-sm">
+<div class="flex items-center gap-8">
+<label class="flex flex-col h-10 w-80 max-w-sm">
+<div class="flex h-full w-full flex-1 items-stretch rounded-lg">
+<div class="text-text-secondary-light dark:text-text-secondary-dark flex items-center justify-center rounded-l-lg border border-r-0 border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark pl-4">
+<span class="material-symbols-outlined text-base">search</span>
+</div>
+<input class="form-input h-full w-full min-w-0 flex-1 resize-none overflow-hidden rounded-r-lg border border-l-0 border-border-light bg-surface-light px-4 text-sm font-normal leading-normal text-text-primary-light placeholder:text-text-secondary-light focus:outline-0 focus:ring-0 dark:border-border-dark dark:bg-surface-dark dark:text-text-primary-dark dark:placeholder:text-text-secondary-dark" placeholder="Search for users..." value=""/>
+</div>
+</label>
+</div>
+<div class="flex flex-1 items-center justify-end gap-4">
+<button class="flex h-10 w-10 cursor-pointer items-center justify-center overflow-hidden rounded-lg bg-surface-light text-text-secondary-light dark:bg-surface-dark dark:text-text-secondary-dark border border-border-light dark:border-border-dark">
+<span class="material-symbols-outlined text-xl">notifications</span>
+</button>
+<button class="flex h-10 w-10 cursor-pointer items-center justify-center overflow-hidden rounded-lg bg-surface-light text-text-secondary-light dark:bg-surface-dark dark:text-text-secondary-dark border border-border-light dark:border-border-dark">
+<span class="material-symbols-outlined text-xl">help</span>
+</button>
+<div class="flex items-center gap-3">
+<div class="aspect-square size-10 rounded-full bg-cover bg-center bg-no-repeat" data-alt="Admin user avatar" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBp-Iq-HaRIpDFB6krfRyDwtExKrSuUGyRu8-I7nxmN_LWaCScs-O9Gu8X7cS8OfZqcpnvXi8pM-AuL2O4dRodc2LaEtW_f9iB-K202fDcP1n03jJKVEtKhJEKX8J8fzkBWcqRVff1PFT4PojUSVCPFTVb8JtinG2-_IKF50_xsM_86H42zo3i5_HCinhXBQWlRPyOq2sL0XSFei0pcJSpujfk8ya1c75eGQbwlMQxxnMJtaxvcWJvHyYeKtZQ7YfyUfDuKIW3inLc')"></div>
+<div class="flex flex-col text-left">
+<h1 class="text-sm font-medium text-text-primary-light dark:text-text-primary-dark">Admin Name</h1>
+<p class="text-xs text-text-secondary-light dark:text-text-secondary-dark">Administrator</p>
+</div>
+</div>
+</div>
+</header>
+<div class="p-10">
+<div class="flex flex-wrap items-center justify-between gap-4">
+<div class="flex flex-col gap-2">
+<h1 class="font-display text-4xl font-bold tracking-tight text-text-primary-light dark:text-text-primary-dark">User Management</h1>
+<p class="text-base font-normal text-text-secondary-light dark:text-text-secondary-dark">Manage all registered users and their roles on the Kólà platform.</p>
+</div>
+<div class="flex gap-2">
+<button class="flex h-10 min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center gap-2 overflow-hidden rounded-lg bg-primary px-4 text-white">
+<span class="material-symbols-outlined text-base">add</span>
+<span class="truncate text-sm font-bold">Add New User</span>
+</button>
+</div>
+</div>
+<div class="mt-8 rounded-xl border border-border-light bg-surface-light dark:border-border-dark dark:bg-surface-dark">
+<div class="flex flex-wrap items-center justify-between gap-4 border-b border-border-light p-6 dark:border-border-dark">
+<h2 class="font-display text-xl font-bold text-text-primary-light dark:text-text-primary-dark">All Users (8,621)</h2>
+<div class="flex items-center gap-2">
+<button class="flex h-9 min-w-[36px] max-w-[480px] cursor-pointer items-center justify-center gap-2 overflow-hidden rounded-lg border border-border-light bg-surface-light px-3 text-sm font-medium text-text-secondary-light dark:border-border-dark dark:bg-surface-dark dark:text-text-secondary-dark">
+<span class="material-symbols-outlined text-base">filter_list</span>
+<span class="truncate">Filter by Role</span>
+</button>
+<button class="flex h-9 min-w-[36px] max-w-[480px] cursor-pointer items-center justify-center gap-2 overflow-hidden rounded-lg border border-border-light bg-surface-light px-3 text-sm font-medium text-text-secondary-light dark:border-border-dark dark:bg-surface-dark dark:text-text-secondary-dark">
+<span class="material-symbols-outlined text-base">swap_vert</span>
+<span class="truncate">Sort by</span>
+</button>
+</div>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left">
+<thead class="text-xs uppercase text-text-secondary-light dark:text-text-secondary-dark">
+<tr class="border-b border-border-light dark:border-border-dark">
+<th class="px-6 py-3 font-medium" scope="col">User</th>
+<th class="px-6 py-3 font-medium" scope="col">Email</th>
+<th class="px-6 py-3 font-medium" scope="col">Role</th>
+<th class="px-6 py-3 font-medium" scope="col">Join Date</th>
+<th class="px-6 py-3 font-medium" scope="col">Status</th>
+<th class="px-6 py-3 font-medium text-right" scope="col">Actions</th>
+</tr>
+</thead>
+<tbody class="text-sm text-text-primary-light dark:text-text-primary-dark">
+<tr class="border-b border-border-light dark:border-border-dark">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="aspect-square size-10 rounded-full bg-cover bg-center bg-no-repeat" data-alt="User avatar" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBdrZL6vsyyX6xlmdP7dF9zlNNaWL774IOXMvTgpkvUrKNceBolUktZ9cVkUGhpKWwy8NmdNKxrJ2l2MSOGKdO7V1j5V46EYepXeoH4jp6-9ICS7H8oWR9Vt0c711yIk0pNxxSeGSZrc0fJ_VRmokcUO3wVoffZhPTysZviQiVeNgpIrj9fLRdlhbHV14rVXVIiOGzpelrSujAUlItCLJrrjN52EPjtTLZu_bjJ7Km7_RTM_Uztgix-him3YaBRx9PoBXO4zbS2-gM')"></div>
+<span class="font-medium">Adebayo Okoro</span>
+</div>
+</td>
+<td class="px-6 py-4 text-text-secondary-light dark:text-text-secondary-dark">adebayo.o@example.com</td>
+<td class="px-6 py-4">Administrator</td>
+<td class="px-6 py-4 text-text-secondary-light dark:text-text-secondary-dark">2023-10-26</td>
+<td class="px-6 py-4"><span class="rounded-full bg-green-100 px-2 py-1 text-xs font-medium text-green-800 dark:bg-green-900 dark:text-green-300">Active</span></td>
+<td class="px-6 py-4 text-right">
+<button class="h-8 w-8 text-text-secondary-light hover:text-primary dark:text-text-secondary-dark"><span class="material-symbols-outlined text-xl">edit</span></button>
+<button class="h-8 w-8 text-text-secondary-light hover:text-red-500 dark:text-text-secondary-dark"><span class="material-symbols-outlined text-xl">delete</span></button>
+</td>
+</tr>
+<tr class="border-b border-border-light dark:border-border-dark">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="aspect-square size-10 rounded-full bg-cover bg-center bg-no-repeat" data-alt="User avatar" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAVyQHRgbDRLVBn-43XQ5XSUQXnC6o09sX6CWL7x_kJOBzKP03y1rOR_jrpO-5iDGwcVJiVho3Qh-JH4il8YPeJ1BvpF7hJsOdmkzY3PvamoqHyUL2vjg0Q6xv0rhhEM090L5b1JwDaEBvsF4ESowi3HLhFC1DNQboEg9rvIvWLjr4t0YVU_E6cvP_bc_sjW0hje8kmJrVieakYmdsB-GwbXNk-lGCt16H5yawQeNQ1goz16nFEW8RuyBXTAPrnN3sPn7CRcPto6Fg')"></div>
+<span class="font-medium">Nia Kimani</span>
+</div>
+</td>
+<td class="px-6 py-4 text-text-secondary-light dark:text-text-secondary-dark">nia.kimani@example.com</td>
+<td class="px-6 py-4">Contributor</td>
+<td class="px-6 py-4 text-text-secondary-light dark:text-text-secondary-dark">2023-10-24</td>
+<td class="px-6 py-4"><span class="rounded-full bg-green-100 px-2 py-1 text-xs font-medium text-green-800 dark:bg-green-900 dark:text-green-300">Active</span></td>
+<td class="px-6 py-4 text-right">
+<button class="h-8 w-8 text-text-secondary-light hover:text-primary dark:text-text-secondary-dark"><span class="material-symbols-outlined text-xl">edit</span></button>
+<button class="h-8 w-8 text-text-secondary-light hover:text-red-500 dark:text-text-secondary-dark"><span class="material-symbols-outlined text-xl">delete</span></button>
+</td>
+</tr>
+<tr class="border-b border-border-light dark:border-border-dark">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="aspect-square size-10 rounded-full bg-cover bg-center bg-no-repeat" data-alt="User avatar" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAgwzWG3eQWVgELKaXsJN4-5vuoQlmB2TAv1ISl5CEHSFD7r7WDXhjo6PMR226dwWNQ-JQ2SdJyzcIFf3QHzb9VHh97PGwE9A4FqJl_o1_Jtgn6G2E8CKWVI3vFj8xHBmsYZ73i-Co7iCwW9RKcFKnrbuLkRq8vqcdDWthXFGPLerC_NqqM5zryA72Eq2lFijRQyYygFCJTAzqV7CCsK9Fj8XLJvgYFYs-j5Eq6HlhzRNIZCb0pwF4JpeG55-DsJe3pvwIJ8eSZzXQ')"></div>
+<span class="font-medium">Kwame Mensah</span>
+</div>
+</td>
+<td class="px-6 py-4 text-text-secondary-light dark:text-text-secondary-dark">kwame.m@example.com</td>
+<td class="px-6 py-4">Reader</td>
+<td class="px-6 py-4 text-text-secondary-light dark:text-text-secondary-dark">2023-10-22</td>
+<td class="px-6 py-4"><span class="rounded-full bg-red-100 px-2 py-1 text-xs font-medium text-red-800 dark:bg-red-900 dark:text-red-300">Suspended</span></td>
+<td class="px-6 py-4 text-right">
+<button class="h-8 w-8 text-text-secondary-light hover:text-primary dark:text-text-secondary-dark"><span class="material-symbols-outlined text-xl">edit</span></button>
+<button class="h-8 w-8 text-text-secondary-light hover:text-red-500 dark:text-text-secondary-dark"><span class="material-symbols-outlined text-xl">delete</span></button>
+</td>
+</tr>
+<tr class="border-b border-border-light dark:border-border-dark">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="aspect-square size-10 rounded-full bg-cover bg-center bg-no-repeat" data-alt="User avatar" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBp-Iq-HaRIpDFB6krfRyDwtExKrSuUGyRu8-I7nxmN_LWaCScs-O9Gu8X7cS8OfZqcpnvXi8pM-AuL2O4dRodc2LaEtW_f9iB-K202fDcP1n03jJKVEtKhJEKX8J8fzkBWcqRVff1PFT4PojUSVCPFTVb8JtinG2-_IKF50_xsM_86H42zo3i5_HCinhXBQWlRPyOq2sL0XSFei0pcJSpujfk8ya1c75eGQbwlMQxxnMJtaxvcWJvHyYeKtZQ7YfyUfDuKIW3inLc')"></div>
+<span class="font-medium">Fatima Al-Jamil</span>
+</div>
+</td>
+<td class="px-6 py-4 text-text-secondary-light dark:text-text-secondary-dark">fatima.aj@example.com</td>
+<td class="px-6 py-4">Contributor</td>
+<td class="px-6 py-4 text-text-secondary-light dark:text-text-secondary-dark">2023-10-20</td>
+<td class="px-6 py-4"><span class="rounded-full bg-green-100 px-2 py-1 text-xs font-medium text-green-800 dark:bg-green-900 dark:text-green-300">Active</span></td>
+<td class="px-6 py-4 text-right">
+<button class="h-8 w-8 text-text-secondary-light hover:text-primary dark:text-text-secondary-dark"><span class="material-symbols-outlined text-xl">edit</span></button>
+<button class="h-8 w-8 text-text-secondary-light hover:text-red-500 dark:text-text-secondary-dark"><span class="material-symbols-outlined text-xl">delete</span></button>
+</td>
+</tr>
+<tr>
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="aspect-square size-10 rounded-full bg-cover bg-center bg-no-repeat" data-alt="User avatar" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuA7g6QkZYMB-jQHt0t2OQan_iEnwoS6Tejq5UPR63J-Ii49kUclyJKL0Kz7jCwT71oHm8g0WPo9LOCi-CAmRVvYdyLwDmGy7E4l60tvByC8jxrRVDJXuYW5gPfrhJCBg1miEiteZE3moe-5CVhX2vpoq7GkEa5jmGDN7UxhW3ukhl5IzoGJHaMRNynJTfDEMiLnt_sZVnK5w9ytfWYPZKsY-ZTlGRSe1WXUIp8koxfrCOb_jU5p36ueCty3pI_L3_tWfd-mM959x7w')"></div>
+<span class="font-medium">Chinedu Eze</span>
+</div>
+</td>
+<td class="px-6 py-4 text-text-secondary-light dark:text-text-secondary-dark">chinedu.eze@example.com</td>
+<td class="px-6 py-4">Reader</td>
+<td class="px-6 py-4 text-text-secondary-light dark:text-text-secondary-dark">2023-10-19</td>
+<td class="px-6 py-4"><span class="rounded-full bg-yellow-100 px-2 py-1 text-xs font-medium text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300">Pending</span></td>
+<td class="px-6 py-4 text-right">
+<button class="h-8 w-8 text-text-secondary-light hover:text-primary dark:text-text-secondary-dark"><span class="material-symbols-outlined text-xl">edit</span></button>
+<button class="h-8 w-8 text-text-secondary-light hover:text-red-500 dark:text-text-secondary-dark"><span class="material-symbols-outlined text-xl">delete</span></button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="flex items-center justify-between border-t border-border-light px-6 py-4 dark:border-border-dark">
+<span class="text-sm text-text-secondary-light dark:text-text-secondary-dark">Showing 1-5 of 8,621 users</span>
+<div class="flex items-center gap-2">
+<button class="flex h-8 items-center justify-center gap-2 rounded-lg border border-border-light bg-surface-light px-3 text-sm font-medium text-text-secondary-light dark:border-border-dark dark:bg-surface-dark dark:text-text-secondary-dark">Previous</button>
+<button class="flex h-8 items-center justify-center gap-2 rounded-lg border border-border-light bg-surface-light px-3 text-sm font-medium text-text-secondary-light dark:border-border-dark dark:bg-surface-dark dark:text-text-secondary-dark">Next</button>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+<div class="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 backdrop-blur-sm">
+<div class="w-full max-w-2xl rounded-xl border border-border-dark bg-surface-dark p-6 shadow-2xl">
+<div class="flex items-start justify-between">
+<div class="flex flex-col gap-1">
+<h2 class="font-display text-2xl font-bold text-text-primary-dark">Add Ethnic Group</h2>
+<p class="text-sm text-text-secondary-dark">Enter the details for the new ethnic group.</p>
+</div>
+<button class="text-text-secondary-dark hover:text-text-primary-dark">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+<form class="mt-6 space-y-5">
+<div>
+<label class="mb-1.5 block text-sm font-medium text-text-primary-dark" for="name">Name</label>
+<input class="form-input w-full rounded-lg border-border-dark bg-background-dark px-4 py-2 text-text-primary-dark placeholder:text-text-secondary-dark focus:border-primary focus:ring-primary" id="name" placeholder="e.g., Yoruba" type="text"/>
+</div>
+<div>
+<label class="mb-1.5 block text-sm font-medium text-text-primary-dark" for="description">Description</label>
+<textarea class="form-textarea w-full rounded-lg border-border-dark bg-background-dark px-4 py-2 text-text-primary-dark placeholder:text-text-secondary-dark focus:border-primary focus:ring-primary" id="description" placeholder="A brief description of the ethnic group..." rows="3"></textarea>
+</div>
+<div>
+<label class="mb-1.5 block text-sm font-medium text-text-primary-dark" for="countries">Countries</label>
+<div class="flex w-full flex-wrap items-center gap-2 rounded-lg border border-border-dark bg-background-dark p-2 text-text-primary-dark focus-within:border-primary focus-within:ring-1 focus-within:ring-primary">
+<span class="flex items-center gap-1 rounded bg-primary/20 px-2 py-0.5 text-sm text-primary">Nigeria <button class="text-primary/70 hover:text-primary"><span class="material-symbols-outlined text-sm">close</span></button></span>
+<span class="flex items-center gap-1 rounded bg-primary/20 px-2 py-0.5 text-sm text-primary">Benin <button class="text-primary/70 hover:text-primary"><span class="material-symbols-outlined text-sm">close</span></button></span>
+<input class="w-auto min-w-0 flex-1 bg-transparent p-0.5 text-sm placeholder:text-text-secondary-dark focus:outline-none" id="countries" placeholder="Add countries..." type="text"/>
+</div>
+</div>
+<div>
+<label class="mb-2 block text-sm font-medium text-text-primary-dark">Name Aliases</label>
+<div class="space-y-3">
+<div class="flex gap-2 items-start">
+<div class="flex-1">
+<input class="form-input w-full rounded-lg border-border-dark bg-background-dark px-3 py-2 text-sm text-text-primary-dark placeholder:text-text-secondary-dark focus:border-primary focus:ring-primary" placeholder="Name Variant" type="text"/>
+</div>
+<div class="w-1/4">
+<input class="form-input w-full rounded-lg border-border-dark bg-background-dark px-3 py-2 text-sm text-text-primary-dark placeholder:text-text-secondary-dark focus:border-primary focus:ring-primary" placeholder="Language" type="text"/>
+</div>
+<div class="flex-1">
+<input class="form-input w-full rounded-lg border-border-dark bg-background-dark px-3 py-2 text-sm text-text-primary-dark placeholder:text-text-secondary-dark focus:border-primary focus:ring-primary" placeholder="Source" type="text"/>
+</div>
+<button class="mt-2 text-text-secondary-dark hover:text-red-500" type="button">
+<span class="material-symbols-outlined text-xl">delete</span>
+</button>
+</div>
+<button class="flex items-center gap-1 text-sm font-medium text-primary hover:text-primary/80" type="button">
+<span class="material-symbols-outlined text-base">add_circle</span>
+                Add another alias
+             </button>
+</div>
+</div>
+<div class="flex items-center justify-end gap-3 pt-4 border-t border-border-dark/50">
+<button class="flex h-11 items-center justify-center gap-2 rounded-lg border border-border-dark bg-transparent px-4 text-sm font-bold text-text-secondary-dark hover:bg-white/5" type="button">
+<span>Cancel</span>
+</button>
+<button class="flex h-11 items-center justify-center gap-2 rounded-lg bg-primary px-4 text-sm font-bold text-white hover:bg-primary/90" type="submit">
+<span class="material-symbols-outlined text-base">add</span>
+<span>Add Ethnic Group</span>
+</button>
+</div>
+</form>
+</div>
+</div>
+</div>
+</body></html>

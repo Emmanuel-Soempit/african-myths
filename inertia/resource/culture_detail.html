@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Kólà - Yoruba Culture</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&amp;family=Inter:wght@400;500;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+          font-variation-settings:
+          'FILL' 0,
+          'wght' 400,
+          'GRAD' 0,
+          'opsz' 24
+        }
+    </style>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary": "#19e619",
+              "background-light": "#f6f8f6",
+              "background-dark": "#112111",
+            },
+            fontFamily: {
+              "display": ["Newsreader", "serif"],
+              "sans": ["Inter", "sans-serif"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-sans text-stone-900 dark:text-stone-100">
+<div class="relative flex min-h-screen w-full flex-col group/design-root overflow-x-hidden">
+<!-- TopNavBar Component -->
+<header class="sticky top-0 z-50 flex items-center justify-between whitespace-nowrap border-b border-stone-200 dark:border-stone-800 bg-background-light/80 dark:bg-background-dark/80 px-4 sm:px-6 lg:px-8 py-3 backdrop-blur-sm">
+<div class="flex items-center gap-8">
+<div class="flex items-center gap-3 text-stone-900 dark:text-white">
+<div class="size-6 text-primary">
+<svg fill="currentColor" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<g clip-path="url(#clip0_6_319)">
+<path d="M8.57829 8.57829C5.52816 11.6284 3.451 15.5145 2.60947 19.7452C1.76794 23.9758 2.19984 28.361 3.85056 32.3462C5.50128 36.3314 8.29667 39.7376 11.8832 42.134C15.4698 44.5305 19.6865 45.8096 24 45.8096C28.3135 45.8096 32.5302 44.5305 36.1168 42.134C39.7033 39.7375 42.4987 36.3314 44.1494 32.3462C45.8002 28.361 46.2321 23.9758 45.3905 19.7452C44.549 15.5145 42.4718 11.6284 39.4217 8.57829L24 24L8.57829 8.57829Z"></path>
+</g>
+<defs><clippath id="clip0_6_319"><rect fill="white" height="48" width="48"></rect></clippath></defs>
+</svg>
+</div>
+<h2 class="text-xl font-bold font-display leading-tight tracking-[-0.015em]">Kólà</h2>
+</div>
+<nav class="hidden md:flex items-center gap-9">
+<a class="text-stone-700 dark:text-stone-300 hover:text-primary dark:hover:text-primary text-sm font-medium leading-normal" href="#">Cultures</a>
+<a class="text-stone-700 dark:text-stone-300 hover:text-primary dark:hover:text-primary text-sm font-medium leading-normal" href="#">Stories</a>
+<a class="text-stone-700 dark:text-stone-300 hover:text-primary dark:hover:text-primary text-sm font-medium leading-normal" href="#">About Us</a>
+<a class="text-stone-700 dark:text-stone-300 hover:text-primary dark:hover:text-primary text-sm font-medium leading-normal" href="#">Contribute</a>
+</nav>
+</div>
+<div class="flex flex-1 justify-end gap-4 md:gap-6 items-center">
+<label class="hidden sm:flex flex-col min-w-40 !h-10 max-w-64">
+<div class="flex w-full flex-1 items-stretch rounded-lg h-full">
+<div class="text-stone-500 dark:text-stone-400 flex border border-stone-300 dark:border-stone-700 bg-stone-100 dark:bg-stone-800 items-center justify-center pl-3 rounded-l-lg border-r-0">
+<span class="material-symbols-outlined !text-xl">search</span>
+</div>
+<input class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-stone-900 dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-stone-300 dark:border-stone-700 bg-stone-100 dark:bg-stone-800 focus:border-primary/50 h-full placeholder:text-stone-500 dark:placeholder:text-stone-400 px-4 rounded-l-none border-l-0 pl-2 text-base font-normal leading-normal" placeholder="Search" value=""/>
+</div>
+</label>
+<button class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-primary text-background-dark text-sm font-bold leading-normal tracking-[-0.01em]">
+<span class="truncate">Sign Up</span>
+</button>
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10" data-alt="User profile avatar" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuC77a1T9mrno9VGtuEcIN1PVi-8JpM60cs653MdbSzdU8ubne1vScANWdNL0K61ZbuU4IymD0tCyvd_ufS4hXgLaZ-iZneJ6c4IqmBvNlObkYs9JolelM8XODCu2pZh-KQ_UJFjj2TRC-7hRBG7LB4A6xLj4ayWYmVUkrH4jES_w0LnS-1obUjNaZajTMbG-jQzzIJ82GHfoGg79rpQsFP_qM3HBwxWfwfvP9AFp4DtaohzgBBND1EWMvkDUAL8Ij638MSmaS3eSj8");'></div>
+</div>
+</header>
+<div class="layout-container flex h-full grow flex-col">
+<main class="flex-1 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+<div class="flex flex-col lg:flex-row gap-10">
+  
+<!-- SideNavBar -->
+<aside class="w-full lg:w-64 lg:sticky top-24 self-start">
+<div class="flex h-full flex-col justify-between rounded-lg bg-stone-100 dark:bg-stone-900/50 border border-stone-200 dark:border-stone-800 p-4">
+<div class="flex flex-col gap-4">
+<div class="flex gap-3 items-center">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10" data-alt="Yoruba cultural symbol" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAQeWq6iZbmJvdXP_jd37B_LhLdeXBZJD83UCrdAbAX3T2Bwsroiljljw4hXFhdu7qAqqwpkqx4S_F7EsaCVItIbjF0yAqOkRaVHWLvbMlvJhQrCU0Lq5BkgDz4oJs2Vsly9ACBmTJC8hImTJm-sX-6sf7AD6nHLpIIdZC6ST9YHKxEjtJppPg6LUdJrijtUDmf_kiGixqoBegX6jsMmRzDF3p68LSp2CEQs3_W0UvVHhKFr_qQC6PQWNjVHOHPo3cR-Rf4ErZpdn4");'></div>
+<div class="flex flex-col">
+<h1 class="text-stone-900 dark:text-white text-base font-bold font-display leading-normal">Yoruba Culture</h1>
+<p class="text-stone-600 dark:text-stone-400 text-sm font-normal leading-normal">Table of Contents</p>
+</div>
+</div>
+<div class="flex flex-col gap-1">
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg bg-primary/20 dark:bg-primary/20" href="#history">
+<span class="material-symbols-outlined !text-xl text-primary">history_edu</span>
+<p class="text-primary text-sm font-medium leading-normal">History</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-stone-200 dark:hover:bg-stone-800" href="#language">
+<span class="material-symbols-outlined !text-xl text-stone-600 dark:text-stone-400">translate</span>
+<p class="text-stone-800 dark:text-stone-200 text-sm font-medium leading-normal">Language</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-stone-200 dark:hover:bg-stone-800" href="#myths">
+<span class="material-symbols-outlined !text-xl text-stone-600 dark:text-stone-400">auto_stories</span>
+<p class="text-stone-800 dark:text-stone-200 text-sm font-medium leading-normal">Myths</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-stone-200 dark:hover:bg-stone-800" href="#resources">
+<span class="material-symbols-outlined !text-xl text-stone-600 dark:text-stone-400">download</span>
+<p class="text-stone-800 dark:text-stone-200 text-sm font-medium leading-normal">Resources</p>
+</a>
+</div>
+</div>
+</div>
+</aside>
+<!-- Main Content -->
+<div class="flex-1 min-w-0">
+<!-- Hero Section -->
+<div class="@container mb-12">
+<div class="flex min-h-[480px] flex-col gap-6 bg-cover bg-center bg-no-repeat @[480px]:gap-8 rounded-xl items-center justify-center p-4" data-alt="Vibrant portrait of a Yoruba woman in traditional attire" style='background-image: linear-gradient(rgba(0, 0, 0, 0.2) 0%, rgba(17, 33, 17, 0.8) 100%), url("https://lh3.googleusercontent.com/aida-public/AB6AXuBXwx2Kl-4GMeiftYQqH3NxK3KzOQQsygkc1w02vIzeBlZRLahexJ9455FAhBCZDeXyIDCf3GR83USdCWI9if35jIwREoAwV4K9cBZQB_6nVasB9_fAmezZd90kzd1zUCm8AE1IyC57501IUVySw251o9QnnsZm5grArgr-kJIiFivj6GOdqsUGxuZqt17LDP0cZroVTpJJQxTI7DcmcH_2ycgUrqxTdF_lqGPHzmxcQDDAr7Qxy9UD_Wsyv5ygVfF-fE0XYI3MH-g");'>
+<div class="flex flex-col gap-4 text-center max-w-2xl">
+<h1 class="text-white text-4xl font-black font-display leading-tight tracking-[-0.033em] @[480px]:text-6xl @[480px]:font-black @[480px]:leading-tight @[480px]:tracking-[-0.033em]">Yoruba Culture</h1>
+<h2 class="text-stone-200 text-base font-normal leading-relaxed @[480px]:text-lg @[480px]:font-normal @[480px]:leading-relaxed">An ancient and vibrant culture from West Africa, rich in history, art, and spiritual traditions that have influenced the world.</h2>
+</div>
+<button class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-12 px-6 bg-primary text-background-dark text-base font-bold leading-normal tracking-[-0.01em]">
+<span class="truncate">Explore Stories</span>
+</button>
+</div>
+</div>
+<!-- Stats Section -->
+<div class="flex flex-wrap gap-4 mb-12">
+<div class="flex min-w-[158px] flex-1 flex-col gap-2 rounded-xl p-6 bg-stone-100 dark:bg-stone-900/50 border border-stone-200 dark:border-stone-800">
+<p class="text-stone-600 dark:text-stone-400 text-sm font-medium leading-normal">Geographic Region</p>
+<p class="text-stone-900 dark:text-white tracking-tight text-2xl font-bold leading-tight font-display">West Africa</p>
+</div>
+<div class="flex min-w-[158px] flex-1 flex-col gap-2 rounded-xl p-6 bg-stone-100 dark:bg-stone-900/50 border border-stone-200 dark:border-stone-800">
+<p class="text-stone-600 dark:text-stone-400 text-sm font-medium leading-normal">Primary Language</p>
+<p class="text-stone-900 dark:text-white tracking-tight text-2xl font-bold leading-tight font-display">Yorùbá</p>
+</div>
+<div class="flex min-w-[158px] flex-1 flex-col gap-2 rounded-xl p-6 bg-stone-100 dark:bg-stone-900/50 border border-stone-200 dark:border-stone-800">
+<p class="text-stone-600 dark:text-stone-400 text-sm font-medium leading-normal">Population Estimate</p>
+<p class="text-stone-900 dark:text-white tracking-tight text-2xl font-bold leading-tight font-display">40 Million+</p>
+</div>
+</div>
+<!-- Section: History & Origins -->
+<section class="mb-12 scroll-mt-24" id="history">
+<h2 class="text-stone-900 dark:text-white text-3xl font-bold font-display leading-tight tracking-[-0.015em] pb-4 border-b border-stone-200 dark:border-stone-800 mb-6">History &amp; Origins</h2>
+<div class="prose prose-lg dark:prose-invert max-w-none text-stone-700 dark:text-stone-300 font-sans">
+<p>The Yoruba people are one of the largest ethnic groups in Africa. Their history is long and rich, with its origins often traced back to the city of Ile-Ife in present-day Nigeria, which is considered the cradle of Yoruba civilization. According to Yoruba mythology, Ile-Ife was founded by the deity Oduduwa, from whom all Yoruba people are said to descend.</p>
+<p>By the 11th century, the Yoruba had established a powerful and complex society organized into city-states. The most notable of these was the Oyo Empire, which rose to prominence in the 17th century and became one of the largest West African states. The Oyo Empire was known for its sophisticated political structure, powerful cavalry, and extensive trade networks that reached across the Sahara.</p>
+<p>Yoruba art, particularly its naturalistic bronze and terracotta sculptures from Ife and Benin, is celebrated worldwide for its technical skill and aesthetic beauty. These artistic traditions, along with their complex religious and philosophical systems, have profoundly influenced African and diaspora cultures, particularly in the Americas through the transatlantic slave trade.</p>
+</div>
+</section>
+<!-- Section: Language -->
+<section class="mb-12 scroll-mt-24" id="language">
+<h2 class="text-stone-900 dark:text-white text-3xl font-bold font-display leading-tight tracking-[-0.015em] pb-4 border-b border-stone-200 dark:border-stone-800 mb-6">Language</h2>
+<div class="prose prose-lg dark:prose-invert max-w-none text-stone-700 dark:text-stone-300 font-sans">
+<p>The Yorùbá language is a Niger-Congo language spoken in West Africa, primarily in Southwestern and Central Nigeria. It is spoken by the ethnic Yoruba people. The number of speakers of Yoruba is estimated at over 40 million. It is a tonal language with three tones: high, mid, and low. The standard variety of the language, often called "Yoruba Koiné," is based on the dialect of the Oyo Empire.</p>
+</div>
+</section>
+<!-- Section: Myths & Legends -->
+<section class="mb-12 scroll-mt-24" id="myths">
+<h2 class="text-stone-900 dark:text-white text-3xl font-bold font-display leading-tight tracking-[-0.015em] pb-4 border-b border-stone-200 dark:border-stone-800 mb-6">Myths &amp; Legends</h2>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+<!-- Myth Card 1 -->
+<div class="flex flex-col rounded-xl overflow-hidden bg-stone-100 dark:bg-stone-900/50 border border-stone-200 dark:border-stone-800 group">
+<div class="aspect-video bg-cover bg-center" data-alt="Abstract representation of a creation myth" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBSAn2JwXxWWqAIBUOpmsb3DEJJmrFz-JKKrGpttlZWzVLEUrzvPosM3k_N8nMkfjLzM_czKqshRY9C1GEz0YW9njcS5BJj7M7YHwRBEWRxamYhq-18Jw5t6IwQgNF_dzBMaoS8px4NCya_r-9tmcMB6TYnlqvK-SMZOrRBXXNHWLTiqyw71vDwJWyAT6CYYLO9sJ_LiejEf3fSLOvct_HLNluX7xYaYE6PpmBYxXK5_gbAHtSFO6do2ocjUemKX0DCaDIfl005GIQ')"></div>
+<div class="p-5 flex flex-col flex-1">
+<h3 class="text-lg font-bold font-display text-stone-900 dark:text-white mb-2">The Creation of the World</h3>
+<p class="text-stone-600 dark:text-stone-400 text-sm leading-relaxed mb-4 flex-1">How Obatala descended from the heavens on a golden chain to create the land upon the waters.</p>
+<a class="text-primary font-bold text-sm group-hover:underline" href="#">Read Story <span aria-hidden="true">→</span></a>
+</div>
+</div>
+<!-- Myth Card 2 -->
+<div class="flex flex-col rounded-xl overflow-hidden bg-stone-100 dark:bg-stone-900/50 border border-stone-200 dark:border-stone-800 group">
+<div class="aspect-video bg-cover bg-center" data-alt="Representation of Sango, the god of thunder" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuA7OZqmeVMWHyLrSdd9AEo_HszSKTDrsKjS84Pl_h3euIMmSHhbrB1OMm0AHLVJdxOIXuJYQA6pPz1AW2u7vrM2t5OiIEt3iA32XSivT_-zLVm2AUDw53sqmu1L7sbBUjWhcYKrctdpNsGNASRpNt0s-PjxJqHKfmMkoGGLgko02KFyW3I07_tCqs8-KkwnY48y4hGWzdHCh_r9aXjww3r1DfuksdrGAy5kti3ew1RQ1Yl3qMSpdmZvVUS47Q2BIJwwdDRnZmF0VGY')"></div>
+<div class="p-5 flex flex-col flex-1">
+<h3 class="text-lg font-bold font-display text-stone-900 dark:text-white mb-2">Sango, the God of Thunder</h3>
+<p class="text-stone-600 dark:text-stone-400 text-sm leading-relaxed mb-4 flex-1">The tale of the powerful fourth king of the Oyo Empire who became the Orisha of lightning and fire.</p>
+<a class="text-primary font-bold text-sm group-hover:underline" href="#">Read Story <span aria-hidden="true">→</span></a>
+</div>
+</div>
+<!-- Myth Card 3 -->
+<div class="flex flex-col rounded-xl overflow-hidden bg-stone-100 dark:bg-stone-900/50 border border-stone-200 dark:border-stone-800 group">
+<div class="aspect-video bg-cover bg-center" data-alt="Symbolic imagery of Ogun, the god of iron and war" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAC38scdNMpKF2gvc9Zq6TqEerluKmFqt8RMApTtvdZuIygLMbbtxmBsWobk5bkX92piWKWoPYAsITSZCEiuCDR57AGsiLpJvY2ZqQmanX9mFyLbBxZzrKQ6S5DYaeUCYn4SevPZDzTL7BjtfWMAA7LDjzOpglx6Uikf1j950v4VsesKhh-N8lSb-yHnWfzpa3c8-nQ6dRfeZxj5jFzugDCa64hEeYpCYMtsASRU00mWST4vr1_PWTCmzerf1PUC0JItzyutHfV6pA')"></div>
+<div class="p-5 flex flex-col flex-1">
+<h3 class="text-lg font-bold font-display text-stone-900 dark:text-white mb-2">The Story of Ogun</h3>
+<p class="text-stone-600 dark:text-stone-400 text-sm leading-relaxed mb-4 flex-1">Discover the story of the mighty warrior, hunter, and blacksmith who clears the path for other gods.</p>
+<a class="text-primary font-bold text-sm group-hover:underline" href="#">Read Story <span aria-hidden="true">→</span></a>
+</div>
+</div>
+</div>
+</section>
+<!-- Section: Resources -->
+<section class="scroll-mt-24" id="resources">
+<h2 class="text-stone-900 dark:text-white text-3xl font-bold font-display leading-tight tracking-[-0.015em] pb-4 border-b border-stone-200 dark:border-stone-800 mb-6">Resources &amp; Downloads</h2>
+<div class="space-y-4">
+<!-- Resource Item 1 -->
+<div class="flex items-center gap-4 p-4 rounded-xl bg-stone-100 dark:bg-stone-900/50 border border-stone-200 dark:border-stone-800">
+<div class="w-16 h-20 bg-stone-300 dark:bg-stone-700 rounded-lg flex-shrink-0 bg-cover bg-center" data-alt="Book cover: The History of the Yorubas" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuB-SxwFp_rhTpvKE1my6iTM-5VUa4G2aXVSxT5FJElYHth8Pyynogx2kT0Y0F4qyL_Zu21kHY7PppOjhmDEGkrx_ZoE2Dj9zZK6tQ0atgl7rHcCYbWQ0U717sYQEzmvgQEp2Shu5DoSlofnfz2-sv9kuGxUJfEpTrsXHxAmp6oQjnDs8ZkRDJU91KooYTZWVkNNjSlouu23MxEhDTOxoONVvz_dece4AcGTprHqFdWQHhTvph0lfc2XpY9rV1W4yzIPPVSP46GZHBo')"></div>
+<div class="flex-1">
+<h3 class="font-bold text-stone-900 dark:text-white">The History of the Yorubas</h3>
+<p class="text-sm text-stone-600 dark:text-stone-400">by Samuel Johnson</p>
+<p class="text-xs text-stone-500 dark:text-stone-500 mt-1">PDF / 5.2 MB</p>
+</div>
+<button class="flex items-center justify-center gap-2 min-w-[84px] cursor-pointer overflow-hidden rounded-lg h-10 px-4 bg-primary/20 text-primary text-sm font-bold leading-normal">
+<span class="material-symbols-outlined !text-xl">download</span>
+<span class="truncate hidden sm:inline">Download</span>
+</button>
+</div>
+<!-- Resource Item 2 -->
+<div class="flex items-center gap-4 p-4 rounded-xl bg-stone-100 dark:bg-stone-900/50 border border-stone-200 dark:border-stone-800">
+<div class="w-16 h-20 bg-stone-300 dark:bg-stone-700 rounded-lg flex-shrink-0 bg-cover bg-center" data-alt="Book cover: Yoruba Myths" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuC6Rq_Nj8r9McZT3PbXh8Zitr9kQGbDfREbPXTd7rCfJR7gD72mguRYQYZjkncmwuC7BNFmfNuvB88hOGrXRCrcezukFFnYaKh5m4fbWGWssM5y-M1cRpvX_r4vL_cq-11hNsFkmovUuUiBxJF9KII3MuHBdGB_pKlIx55spx3Y8TukGvOKWtICnwskprQaT-Wf5wNx78qxVCvexOskizPhg2WOKX-QQwgLfRbFHFfpMo1KNMAjn6PtSTlzocBMVh7kyEBQVrhtVVY')"></div>
+<div class="flex-1">
+<h3 class="font-bold text-stone-900 dark:text-white">Yoruba Myths</h3>
+<p class="text-sm text-stone-600 dark:text-stone-400">by Ulli Beier</p>
+<p class="text-xs text-stone-500 dark:text-stone-500 mt-1">EPUB / 3.1 MB</p>
+</div>
+<button class="flex items-center justify-center gap-2 min-w-[84px] cursor-pointer overflow-hidden rounded-lg h-10 px-4 bg-primary/20 text-primary text-sm font-bold leading-normal">
+<span class="material-symbols-outlined !text-xl">download</span>
+<span class="truncate hidden sm:inline">Download</span>
+</button>
+</div>
+</div>
+</section>
+</div>
+</div>
+</main>
+</div>
+</div>
+</body></html>
